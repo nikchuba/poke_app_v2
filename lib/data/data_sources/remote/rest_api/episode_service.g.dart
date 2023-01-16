@@ -19,13 +19,13 @@ class _EpisodeService implements EpisodeService {
   String? baseUrl;
 
   @override
-  Future<ResponseDto<EpisodeDto>> getEpisodes(page) async {
+  Future<EpisodeResponseDto> getEpisodes(page) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<EpisodeDto>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EpisodeResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -37,10 +37,7 @@ class _EpisodeService implements EpisodeService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<EpisodeDto>.fromJson(
-      _result.data!,
-      (json) => EpisodeDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeEpisodeResponseDto, _result.data!);
     return value;
   }
 
@@ -63,18 +60,18 @@ class _EpisodeService implements EpisodeService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = EpisodeDto.fromJson(_result.data!);
+    final value = await compute(deserializeEpisodeDto, _result.data!);
     return value;
   }
 
   @override
-  Future<ResponseDto<EpisodeDto>> getEpisodeByName(name) async {
+  Future<EpisodeResponseDto> getEpisodeByName(name) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'name': name};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<EpisodeDto>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EpisodeResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -86,10 +83,7 @@ class _EpisodeService implements EpisodeService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<EpisodeDto>.fromJson(
-      _result.data!,
-      (json) => EpisodeDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeEpisodeResponseDto, _result.data!);
     return value;
   }
 

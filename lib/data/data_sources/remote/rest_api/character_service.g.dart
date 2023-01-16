@@ -19,13 +19,13 @@ class _CharacterService implements CharacterService {
   String? baseUrl;
 
   @override
-  Future<ResponseDto<CharacterCardDto>> getCharacters(page) async {
+  Future<CharacterResponseDto> getCharacters(page) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<CharacterCardDto>>(Options(
+        _setStreamType<CharacterResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -37,10 +37,7 @@ class _CharacterService implements CharacterService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<CharacterCardDto>.fromJson(
-      _result.data!,
-      (json) => CharacterCardDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeCharacterResponseDto, _result.data!);
     return value;
   }
 
@@ -63,18 +60,18 @@ class _CharacterService implements CharacterService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CharacterDto.fromJson(_result.data!);
+    final value = await compute(deserializeCharacterDto, _result.data!);
     return value;
   }
 
   @override
-  Future<ResponseDto<CharacterCardDto>> getCharacterByName(name) async {
+  Future<CharacterResponseDto> getCharacterByName(name) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'name': name};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<CharacterCardDto>>(Options(
+        _setStreamType<CharacterResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -86,10 +83,7 @@ class _CharacterService implements CharacterService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<CharacterCardDto>.fromJson(
-      _result.data!,
-      (json) => CharacterCardDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeCharacterResponseDto, _result.data!);
     return value;
   }
 

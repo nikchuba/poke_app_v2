@@ -19,13 +19,13 @@ class _LocationService implements LocationService {
   String? baseUrl;
 
   @override
-  Future<ResponseDto<LocationDto>> getLocations(page) async {
+  Future<LocationResponseDto> getLocations(page) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<LocationDto>>(Options(
+        _setStreamType<LocationResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -37,10 +37,7 @@ class _LocationService implements LocationService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<LocationDto>.fromJson(
-      _result.data!,
-      (json) => LocationDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeLocationResponseDto, _result.data!);
     return value;
   }
 
@@ -63,18 +60,18 @@ class _LocationService implements LocationService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = LocationDto.fromJson(_result.data!);
+    final value = await compute(deserializeLocationDto, _result.data!);
     return value;
   }
 
   @override
-  Future<ResponseDto<LocationDto>> getLocationByName(name) async {
+  Future<LocationResponseDto> getLocationByName(name) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'name': name};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseDto<LocationDto>>(Options(
+        _setStreamType<LocationResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -86,10 +83,7 @@ class _LocationService implements LocationService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResponseDto<LocationDto>.fromJson(
-      _result.data!,
-      (json) => LocationDto.fromJson(json as Map<String, dynamic>),
-    );
+    final value = await compute(deserializeLocationResponseDto, _result.data!);
     return value;
   }
 

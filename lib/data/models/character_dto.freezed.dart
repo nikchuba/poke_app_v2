@@ -22,11 +22,11 @@ CharacterDto _$CharacterDtoFromJson(Map<String, dynamic> json) {
 mixin _$CharacterDto {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  StatusDto get status => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get species => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  String get gender => throw _privateConstructorUsedError;
+  GenderDto get gender => throw _privateConstructorUsedError;
   OriginDto get origin => throw _privateConstructorUsedError;
   CharacterLocationDto get location => throw _privateConstructorUsedError;
   List<String> get episodes => throw _privateConstructorUsedError;
@@ -46,11 +46,11 @@ abstract class $CharacterDtoCopyWith<$Res> {
   $Res call(
       {int id,
       String name,
-      String status,
+      StatusDto status,
       String image,
       String species,
       String type,
-      String gender,
+      GenderDto gender,
       OriginDto origin,
       CharacterLocationDto location,
       List<String> episodes});
@@ -95,7 +95,7 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StatusDto,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -111,7 +111,7 @@ class _$CharacterDtoCopyWithImpl<$Res, $Val extends CharacterDto>
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
+              as GenderDto,
       origin: null == origin
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
@@ -155,11 +155,11 @@ abstract class _$$_CharacterDtoCopyWith<$Res>
   $Res call(
       {int id,
       String name,
-      String status,
+      StatusDto status,
       String image,
       String species,
       String type,
-      String gender,
+      GenderDto gender,
       OriginDto origin,
       CharacterLocationDto location,
       List<String> episodes});
@@ -204,7 +204,7 @@ class __$$_CharacterDtoCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StatusDto,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -220,7 +220,7 @@ class __$$_CharacterDtoCopyWithImpl<$Res>
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
+              as GenderDto,
       origin: null == origin
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
@@ -261,7 +261,7 @@ class _$_CharacterDto implements _CharacterDto {
   @override
   final String name;
   @override
-  final String status;
+  final StatusDto status;
   @override
   final String image;
   @override
@@ -269,7 +269,7 @@ class _$_CharacterDto implements _CharacterDto {
   @override
   final String type;
   @override
-  final String gender;
+  final GenderDto gender;
   @override
   final OriginDto origin;
   @override
@@ -338,11 +338,11 @@ abstract class _CharacterDto implements CharacterDto {
   const factory _CharacterDto(
       {required final int id,
       required final String name,
-      required final String status,
+      required final StatusDto status,
       required final String image,
       required final String species,
       required final String type,
-      required final String gender,
+      required final GenderDto gender,
       required final OriginDto origin,
       required final CharacterLocationDto location,
       required final List<String> episodes}) = _$_CharacterDto;
@@ -355,7 +355,7 @@ abstract class _CharacterDto implements CharacterDto {
   @override
   String get name;
   @override
-  String get status;
+  StatusDto get status;
   @override
   String get image;
   @override
@@ -363,7 +363,7 @@ abstract class _CharacterDto implements CharacterDto {
   @override
   String get type;
   @override
-  String get gender;
+  GenderDto get gender;
   @override
   OriginDto get origin;
   @override

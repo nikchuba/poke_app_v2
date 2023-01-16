@@ -21,7 +21,7 @@ CharacterResponseDto _$CharacterResponseDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CharacterResponseDto {
   ResponseInfoDto get info => throw _privateConstructorUsedError;
-  List<CharacterDto> get results => throw _privateConstructorUsedError;
+  List<CharacterCardDto> get results => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $CharacterResponseDtoCopyWith<$Res> {
           $Res Function(CharacterResponseDto) then) =
       _$CharacterResponseDtoCopyWithImpl<$Res, CharacterResponseDto>;
   @useResult
-  $Res call({ResponseInfoDto info, List<CharacterDto> results});
+  $Res call({ResponseInfoDto info, List<CharacterCardDto> results});
 
   $ResponseInfoDtoCopyWith<$Res> get info;
 }
@@ -65,7 +65,7 @@ class _$CharacterResponseDtoCopyWithImpl<$Res,
       results: null == results
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
-              as List<CharacterDto>,
+              as List<CharacterCardDto>,
     ) as $Val);
   }
 
@@ -86,7 +86,7 @@ abstract class _$$_CharacterResponseDtoCopyWith<$Res>
       __$$_CharacterResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ResponseInfoDto info, List<CharacterDto> results});
+  $Res call({ResponseInfoDto info, List<CharacterCardDto> results});
 
   @override
   $ResponseInfoDtoCopyWith<$Res> get info;
@@ -114,7 +114,7 @@ class __$$_CharacterResponseDtoCopyWithImpl<$Res>
       results: null == results
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
-              as List<CharacterDto>,
+              as List<CharacterCardDto>,
     ));
   }
 }
@@ -123,7 +123,7 @@ class __$$_CharacterResponseDtoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CharacterResponseDto implements _CharacterResponseDto {
   const _$_CharacterResponseDto(
-      {required this.info, required final List<CharacterDto> results})
+      {required this.info, required final List<CharacterCardDto> results})
       : _results = results;
 
   factory _$_CharacterResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -131,9 +131,9 @@ class _$_CharacterResponseDto implements _CharacterResponseDto {
 
   @override
   final ResponseInfoDto info;
-  final List<CharacterDto> _results;
+  final List<CharacterCardDto> _results;
   @override
-  List<CharacterDto> get results {
+  List<CharacterCardDto> get results {
     if (_results is EqualUnmodifiableListView) return _results;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_results);
@@ -176,7 +176,7 @@ class _$_CharacterResponseDto implements _CharacterResponseDto {
 abstract class _CharacterResponseDto implements CharacterResponseDto {
   const factory _CharacterResponseDto(
       {required final ResponseInfoDto info,
-      required final List<CharacterDto> results}) = _$_CharacterResponseDto;
+      required final List<CharacterCardDto> results}) = _$_CharacterResponseDto;
 
   factory _CharacterResponseDto.fromJson(Map<String, dynamic> json) =
       _$_CharacterResponseDto.fromJson;
@@ -184,7 +184,7 @@ abstract class _CharacterResponseDto implements CharacterResponseDto {
   @override
   ResponseInfoDto get info;
   @override
-  List<CharacterDto> get results;
+  List<CharacterCardDto> get results;
   @override
   @JsonKey(ignore: true)
   _$$_CharacterResponseDtoCopyWith<_$_CharacterResponseDto> get copyWith =>

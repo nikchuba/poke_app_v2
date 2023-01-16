@@ -10,11 +10,11 @@ _$_CharacterDto _$$_CharacterDtoFromJson(Map<String, dynamic> json) =>
     _$_CharacterDto(
       id: json['id'] as int,
       name: json['name'] as String,
-      status: json['status'] as String,
+      status: $enumDecode(_$StatusDtoEnumMap, json['status']),
       image: json['image'] as String,
       species: json['species'] as String,
       type: json['type'] as String,
-      gender: json['gender'] as String,
+      gender: $enumDecode(_$GenderDtoEnumMap, json['gender']),
       origin: OriginDto.fromJson(json['origin'] as Map<String, dynamic>),
       location: CharacterLocationDto.fromJson(
           json['location'] as Map<String, dynamic>),
@@ -26,12 +26,25 @@ Map<String, dynamic> _$$_CharacterDtoToJson(_$_CharacterDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'status': instance.status,
+      'status': _$StatusDtoEnumMap[instance.status]!,
       'image': instance.image,
       'species': instance.species,
       'type': instance.type,
-      'gender': instance.gender,
+      'gender': _$GenderDtoEnumMap[instance.gender]!,
       'origin': instance.origin,
       'location': instance.location,
       'episodes': instance.episodes,
     };
+
+const _$StatusDtoEnumMap = {
+  StatusDto.alive: 'alive',
+  StatusDto.dead: 'dead',
+  StatusDto.unknown: 'unknown',
+};
+
+const _$GenderDtoEnumMap = {
+  GenderDto.female: 'female',
+  GenderDto.male: 'male',
+  GenderDto.genderless: 'genderless',
+  GenderDto.unknown: 'unknown',
+};

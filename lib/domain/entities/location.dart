@@ -1,4 +1,14 @@
-import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'character_card.dart';
+
+abstract class ILocation {
+  const ILocation({
+    required this.name,
+    required this.url,
+  });
+
+  final String name;
+  final String url;
+}
 
 class Location extends ILocation {
   const Location({
@@ -14,14 +24,4 @@ class Location extends ILocation {
   final String type;
   final String dimension;
   final List<CharacterCard> residents;
-}
-
-class ILocation {
-  const ILocation({
-    required this.name,
-    required this.url,
-  });
-
-  final String name;
-  final String url;
 }

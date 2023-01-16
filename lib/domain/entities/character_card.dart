@@ -1,3 +1,5 @@
+import 'enums/status.dart';
+
 class CharacterCard {
   const CharacterCard({
     required this.id,
@@ -8,6 +10,6 @@ class CharacterCard {
 
   final int id;
   final String name;
-  final String status;
+  final Status status;
   final String image;
 }

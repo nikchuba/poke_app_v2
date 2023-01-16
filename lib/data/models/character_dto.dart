@@ -4,6 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rick_and_morty/data/models/character_location_dto.dart';
 import 'package:rick_and_morty/data/models/origin_dto.dart';
 
+import 'enums/gender_dto.dart';
+import 'enums/status_dto.dart';
+
 part 'character_dto.freezed.dart';
 part 'character_dto.g.dart';
 
@@ -12,11 +15,11 @@ abstract class CharacterDto with _$CharacterDto {
   const factory CharacterDto({
     required int id,
     required String name,
-    required String status,
+    required StatusDto status,
     required String image,
     required String species,
     required String type,
-    required String gender,
+    required GenderDto gender,
     required OriginDto origin,
     required CharacterLocationDto location,
     required List<String> episodes,

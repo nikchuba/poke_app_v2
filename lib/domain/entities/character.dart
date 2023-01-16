@@ -1,6 +1,6 @@
-import 'package:rick_and_morty/domain/entities/location.dart';
-
 import 'character_card.dart';
+import 'enums/gender.dart';
+import 'location.dart';
 
 class Character extends CharacterCard {
   const Character({
@@ -18,7 +18,7 @@ class Character extends CharacterCard {
 
   final String species;
   final String type;
-  final String gender;
+  final Gender gender;
   final ILocation origin;
   final ILocation location;
   final List<String> episodes;

@@ -22,7 +22,7 @@ CharacterCardDto _$CharacterCardDtoFromJson(Map<String, dynamic> json) {
 mixin _$CharacterCardDto {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  StatusDto get status => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $CharacterCardDtoCopyWith<$Res> {
           CharacterCardDto value, $Res Function(CharacterCardDto) then) =
       _$CharacterCardDtoCopyWithImpl<$Res, CharacterCardDto>;
   @useResult
-  $Res call({int id, String name, String status, String image});
+  $Res call({int id, String name, StatusDto status, String image});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$CharacterCardDtoCopyWithImpl<$Res, $Val extends CharacterCardDto>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StatusDto,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -87,7 +87,7 @@ abstract class _$$_CharacterCardDtoCopyWith<$Res>
       __$$_CharacterCardDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String status, String image});
+  $Res call({int id, String name, StatusDto status, String image});
 }
 
 /// @nodoc
@@ -118,7 +118,7 @@ class __$$_CharacterCardDtoCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as StatusDto,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -144,7 +144,7 @@ class _$_CharacterCardDto implements _CharacterCardDto {
   @override
   final String name;
   @override
-  final String status;
+  final StatusDto status;
   @override
   final String image;
 
@@ -186,7 +186,7 @@ abstract class _CharacterCardDto implements CharacterCardDto {
   const factory _CharacterCardDto(
       {required final int id,
       required final String name,
-      required final String status,
+      required final StatusDto status,
       required final String image}) = _$_CharacterCardDto;
 
   factory _CharacterCardDto.fromJson(Map<String, dynamic> json) =
@@ -197,7 +197,7 @@ abstract class _CharacterCardDto implements CharacterCardDto {
   @override
   String get name;
   @override
-  String get status;
+  StatusDto get status;
   @override
   String get image;
   @override

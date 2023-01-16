@@ -11,7 +11,7 @@ _$_CharacterResponseDto _$$_CharacterResponseDtoFromJson(
     _$_CharacterResponseDto(
       info: ResponseInfoDto.fromJson(json['info'] as Map<String, dynamic>),
       results: (json['results'] as List<dynamic>)
-          .map((e) => CharacterDto.fromJson(e as Map<String, dynamic>))
+          .map((e) => CharacterCardDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

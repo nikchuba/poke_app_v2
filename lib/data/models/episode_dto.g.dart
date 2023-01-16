@@ -10,19 +10,18 @@ _$_EpisodeDto _$$_EpisodeDtoFromJson(Map<String, dynamic> json) =>
     _$_EpisodeDto(
       id: json['id'] as int,
       name: json['name'] as String,
-      type: json['type'] as String,
-      dimension: json['dimension'] as String,
-      residents:
-          (json['residents'] as List<dynamic>).map((e) => e as String).toList(),
-      url: json['url'] as String,
+      airDate: json['air_date'] as String,
+      episode: json['episode'] as String,
+      characters: (json['characters'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$_EpisodeDtoToJson(_$_EpisodeDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'type': instance.type,
-      'dimension': instance.dimension,
-      'residents': instance.residents,
-      'url': instance.url,
+      'air_date': instance.airDate,
+      'episode': instance.episode,
+      'characters': instance.characters,
     };

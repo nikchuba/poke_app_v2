@@ -10,10 +10,9 @@ abstract class EpisodeDto with _$EpisodeDto {
   const factory EpisodeDto({
     required int id,
     required String name,
-    required String type,
-    required String dimension,
-    required List<String> residents,
-    required String url,
+    @JsonKey(name: 'air_date') required String airDate,
+    required String episode,
+    required List<String> characters,
   }) = _EpisodeDto;
 
   factory EpisodeDto.fromJson(Map<String, Object?> json) =>

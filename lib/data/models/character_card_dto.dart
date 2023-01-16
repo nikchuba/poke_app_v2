@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'enums/status_dto.dart';
+
 part 'character_card_dto.freezed.dart';
 part 'character_card_dto.g.dart';
 
@@ -8,7 +10,7 @@ abstract class CharacterCardDto with _$CharacterCardDto {
   const factory CharacterCardDto({
     required int id,
     required String name,
-    required String status,
+    required StatusDto status,
     required String image,
   }) = _CharacterCardDto;
 

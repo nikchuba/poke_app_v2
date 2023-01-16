@@ -1,4 +1,4 @@
-import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'character_card.dart';
 
 class Episode {
   const Episode({

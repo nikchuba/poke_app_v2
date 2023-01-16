@@ -1,4 +1,4 @@
-import 'package:rick_and_morty/domain/entities/location.dart';
+import 'location.dart';
 
 class CharacterLocation extends ILocation {
   const CharacterLocation({

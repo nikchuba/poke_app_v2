@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum StatusDto {
-  @JsonValue('alive')
+  @JsonValue('Alive')
   alive,
-  @JsonValue('dead')
+  @JsonValue('Dead')
   dead,
   @JsonValue('unknown')
   unknown,

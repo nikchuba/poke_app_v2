@@ -23,7 +23,7 @@ Map<String, dynamic> _$$_CharacterCardDtoToJson(_$_CharacterCardDto instance) =>
     };
 
 const _$StatusDtoEnumMap = {
-  StatusDto.alive: 'alive',
-  StatusDto.dead: 'dead',
+  StatusDto.alive: 'Alive',
+  StatusDto.dead: 'Dead',
   StatusDto.unknown: 'unknown',
 };

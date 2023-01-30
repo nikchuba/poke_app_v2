@@ -27,14 +27,14 @@ Map<String, dynamic> _$$_CharacterFilterDtoToJson(
     };
 
 const _$StatusDtoEnumMap = {
-  StatusDto.alive: 'alive',
-  StatusDto.dead: 'dead',
+  StatusDto.alive: 'Alive',
+  StatusDto.dead: 'Dead',
   StatusDto.unknown: 'unknown',
 };
 
 const _$GenderDtoEnumMap = {
-  GenderDto.female: 'female',
-  GenderDto.male: 'male',
-  GenderDto.genderless: 'genderless',
+  GenderDto.female: 'Female',
+  GenderDto.male: 'Male',
+  GenderDto.genderless: 'Genderless',
   GenderDto.unknown: 'unknown',
 };

@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum GenderDto {
-  @JsonValue('female')
+  @JsonValue('Female')
   female,
-  @JsonValue('male')
+  @JsonValue('Male')
   male,
-  @JsonValue('genderless')
+  @JsonValue('Genderless')
   genderless,
   @JsonValue('unknown')
   unknown,

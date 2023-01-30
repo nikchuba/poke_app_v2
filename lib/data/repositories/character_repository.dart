@@ -31,7 +31,7 @@ class CharacterRepository implements ICharacterRepository {
       final entity = await compute(mapCharacter, dto);
       return Right(entity);
     } on IException catch (e) {
-      return Left(ServerError(message: e.message));
+      return Left(ServerError(e.message));
     }
   }
 
@@ -44,7 +44,7 @@ class CharacterRepository implements ICharacterRepository {
       final entity = await compute(mapCharacterResponse, dto);
       return Right(entity);
     } on dio.DioError catch (e) {
-      return Left(ServerError(message: e.message));
+      return Left(ServerError(e.message));
     }
   }
 
@@ -65,7 +65,7 @@ class CharacterRepository implements ICharacterRepository {
       final entity = await compute(mapCharacterResponse, dto);
       return Right(entity);
     } on dio.DioError catch (e) {
-      return Left(ServerError(message: e.message));
+      return Left(ServerError(e.message));
     }
   }
 
@@ -78,7 +78,7 @@ class CharacterRepository implements ICharacterRepository {
       final entity = await compute(mapCharacterResponse, dto);
       return Right(entity);
     } on dio.DioError catch (e) {
-      return Left(ServerError(message: e.message));
+      return Left(ServerError(e.message));
     }
   }
 }

@@ -1,5 +1,5 @@
 abstract class ApiUrl {
-  static const domain = 'rickandmortyapi.com';
+  static const domain = 'https://rickandmortyapi.com';
   static const restApiPath = '/api';
   static const character = '/character';
   static const episode = '/episode';

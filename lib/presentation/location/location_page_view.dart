@@ -11,8 +11,12 @@ class _LocationPageViewState extends State<LocationPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('LOCATIONS'),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: const Text('LOCATIONS'),
+          ),
+        ],
       ),
     );
   }

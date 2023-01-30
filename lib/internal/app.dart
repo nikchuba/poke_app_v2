@@ -20,7 +20,7 @@ class App extends StatelessWidget {
         brightness: Brightness.dark,
         colorSchemeSeed: const Color.fromRGBO(108, 81, 149, 1),
       ),
-      initial: AdaptiveThemeMode.light,
+      initial: themeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => MaterialApp.router(
         routerDelegate: router.delegate(),
         routeInformationParser: router.defaultRouteParser(),

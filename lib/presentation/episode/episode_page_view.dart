@@ -11,8 +11,12 @@ class _EpisodePageViewState extends State<EpisodePageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('EPISODES'),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: const Text('EPISODES'),
+          ),
+        ],
       ),
     );
   }

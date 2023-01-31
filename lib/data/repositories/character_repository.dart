@@ -8,14 +8,13 @@ import 'package:rick_and_morty/data/data_sources/remote/rest_api/character_servi
 import 'package:rick_and_morty/data/mappers/character_mapper.dart';
 import 'package:rick_and_morty/data/mappers/enum_mapper.dart';
 import 'package:rick_and_morty/data/models/character_filter_dto.dart';
-import 'package:rick_and_morty/domain/entities/response.dart';
+import 'package:rick_and_morty/domain/entities/pagination.dart';
 
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 
 import 'package:rick_and_morty/domain/entities/character.dart';
 import 'package:rick_and_morty/domain/entities/search_filter.dart';
-
-import '../../domain/repositories/character_repository.dart';
+import 'package:rick_and_morty/domain/repositories/character_repository.dart';
 
 class CharacterRepository implements ICharacterRepository {
   const CharacterRepository({
@@ -36,7 +35,7 @@ class CharacterRepository implements ICharacterRepository {
   }
 
   @override
-  Future<ErrorOr<Response<CharacterCard>>> getCharacters({
+  Future<ErrorOr<Pagination<CharacterCard>>> getCharacters({
     int? page,
   }) async {
     try {
@@ -49,7 +48,7 @@ class CharacterRepository implements ICharacterRepository {
   }
 
   @override
-  Future<ErrorOr<Response<CharacterCard>>> getCharactersByFilter(
+  Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByFilter(
     SearchFilter<CharacterFilter> filter,
   ) async {
     try {
@@ -70,7 +69,7 @@ class CharacterRepository implements ICharacterRepository {
   }
 
   @override
-  Future<ErrorOr<Response<CharacterCard>>> getCharactersByName(
+  Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByName(
     String name,
   ) async {
     try {

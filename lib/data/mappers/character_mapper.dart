@@ -3,7 +3,7 @@ import 'package:rick_and_morty/data/models/character_dto.dart';
 import 'package:rick_and_morty/data/models/character_response_dto.dart';
 import 'package:rick_and_morty/domain/entities/character.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
-import 'package:rick_and_morty/domain/entities/response.dart';
+import 'package:rick_and_morty/domain/entities/pagination.dart';
 
 import 'enum_mapper.dart';
 import 'location_mapper.dart';
@@ -24,8 +24,8 @@ Character mapCharacter(CharacterDto dto) {
   );
 }
 
-Response<CharacterCard> mapCharacterResponse(CharacterResponseDto dto) {
-  return Response(
+Pagination<CharacterCard> mapCharacterResponse(CharacterResponseDto dto) {
+  return Pagination(
     info: mapResponseInfo(dto.info),
     results: dto.results.map(mapCharacterCard).toList(),
   );

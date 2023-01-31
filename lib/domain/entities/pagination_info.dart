@@ -1,5 +1,5 @@
-class ResponseInfo {
-  const ResponseInfo({
+class PaginationInfo {
+  const PaginationInfo({
     required this.count,
     required this.pages,
     this.next,

@@ -1,11 +1,13 @@
-import 'package:dio/dio.dart' as dio;
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/data/api_url.dart';
-import 'package:rick_and_morty/data/data_sources/remote/rest_api/character_service.dart';
-import 'package:rick_and_morty/data/repositories/character_repository.dart';
+import 'package:provider/provider.dart';
+import 'package:rick_and_morty/core/error/error.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
-import 'package:rick_and_morty/domain/entities/response.dart';
-import 'package:rick_and_morty/domain/entities/response_info.dart';
+import 'package:rick_and_morty/domain/entities/pagination.dart';
+import 'package:rick_and_morty/domain/repositories/character_repository.dart';
+import 'package:rick_and_morty/internal/di/locator.dart';
+import 'package:rick_and_morty/libraries/extensions/either.dart';
 import 'package:rick_and_morty/libraries/ui/layout/page.dart';
 import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/presentation/character/screens/characters_screen/widgets/character_card_widget.dart';
@@ -18,7 +20,9 @@ class CharactersPage
     extends IScreen<CharactersPagePresenter, CharactersPageView> {
   CharactersPage({super.key})
       : super(
-          presenter: CharactersPagePresenter(),
+          presenter: CharactersPagePresenter(
+            characterRepository: locator.get(),
+          )..init(),
           view: const CharactersPageView(),
         );
 }

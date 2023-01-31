@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
@@ -41,24 +39,28 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
             filterQuality: FilterQuality.high,
           ),
           Positioned(
-            bottom: 0,
+            bottom: -1,
             left: 0,
             right: 0,
             child: Container(
               clipBehavior: Clip.hardEdge,
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withOpacity(.3),
-              ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: Text(
-                  widget.card.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: colorScheme.onSurface),
+                gradient: LinearGradient(
+                  tileMode: TileMode.mirror,
+                  colors: [
+                    colorScheme.surfaceVariant,
+                    colorScheme.primaryContainer.withOpacity(.5),
+                    
+                  ],
                 ),
+              ),
+              child: Text(
+                widget.card.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: colorScheme.onSurface),
               ),
             ),
           ),
@@ -69,19 +71,16 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
               clipBehavior: Clip.hardEdge,
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withOpacity(.3),
+                color: colorScheme.surfaceVariant.withOpacity(.8),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Center(
-                  child: Text(
-                    '#${widget.card.id}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: colorScheme.onSurface),
-                  ),
+              child: Center(
+                child: Text(
+                  '#${widget.card.id}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: colorScheme.onSurface),
                 ),
               ),
             ),
@@ -93,33 +92,19 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
               clipBehavior: Clip.hardEdge,
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withOpacity(.3),
+                color: getStatusColor(widget.card.status).withOpacity(.8),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                child: Row(
-                  children: [
-                    Text(
-                      widget.card.status.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(color: colorScheme.onSurface),
-                    ),
-                    const SizedBox(width: 4),
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: getStatusColor(widget.card.status),
-                        border: Border.all(
-                            color: getStatusColor(widget.card.status)),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
-                  ],
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    widget.card.status.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(color: colorScheme.onSurface),
+                  ),
+                ],
               ),
             ),
           ),

@@ -8,35 +8,21 @@ class CharactersPageView extends StatefulWidget {
 }
 
 class _CharactersPageViewState extends State<CharactersPageView> {
+  CharactersPagePresenter get presenter => context.read();
   late final ScrollController controller;
-  final repository = CharacterRepository(
-    service: CharacterService(
-      dio.Dio(
-        dio.BaseOptions(baseUrl: ApiUrl.domain + ApiUrl.restApiPath),
-      ),
-    ),
-  );
-
-  late final BehaviorSubject<Response<CharacterCard>> characters;
-  late final BehaviorSubject<bool> loading;
 
   @override
   void initState() {
-    controller = ScrollController();
-    loading = BehaviorSubject();
-    characters = BehaviorSubject();
-    _getCharacters(0);
-
-    controller.addListener(() async {
-      final pos = controller.position;
-      if (pos.pixels / pos.maxScrollExtent > 0.9 && loading.value == false) {
-        final nextPage = characters.valueOrNull?.info.nextPage;
-        if (nextPage != null) {
-          _getCharacters(nextPage);
-        }
-      }
-    });
+    controller = ScrollController()..addListener(_lazyLoad);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller
+      ..removeListener(_lazyLoad)
+      ..dispose();
+    super.dispose();
   }
 
   @override
@@ -52,9 +38,9 @@ class _CharactersPageViewState extends State<CharactersPageView> {
           SliverPadding(
             padding: const EdgeInsets.all(16),
             sliver: StreamBuilder(
-              stream: characters,
+              stream: presenter.characterCardsController,
               builder: (context, snapshot) {
-                final cards = snapshot.data?.results;
+                final cards = snapshot.data;
                 if (cards != null) {
                   return SliverGrid(
                     gridDelegate:
@@ -82,7 +68,7 @@ class _CharactersPageViewState extends State<CharactersPageView> {
           SliverToBoxAdapter(
             child: StreamBuilder(
               initialData: false,
-              stream: loading,
+              stream: presenter.loadingController,
               builder: (context, snap) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
@@ -103,22 +89,11 @@ class _CharactersPageViewState extends State<CharactersPageView> {
     );
   }
 
-  Future<void> _getCharacters(int? page) async {
-    loading.add(true);
-    final response = await repository.getCharacters(page: page);
-    final right = response.getOrElse(
-      () => const Response(
-        info: ResponseInfo(count: 0, pages: 0),
-        results: [],
-      ),
-    );
-    if (characters.hasValue) {
-      characters.add(characters.value.copyWith(
-          info: right.info,
-          results: [...characters.value.results, ...right.results]));
-    } else {
-      characters.add(right);
+  void _lazyLoad() {
+    final pos = controller.position;
+    final indicator = pos.pixels / pos.maxScrollExtent;
+    if (indicator > .9) {
+      presenter.getCharacters();
     }
-    loading.add(false);
   }
 }

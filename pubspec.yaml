@@ -11,13 +11,12 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+
+  # state management
   provider: ^6.0.5
 
   # theme
   adaptive_theme: ^3.1.1
-  progressive_image: ^2.0.0
-
-  jpeg_encode: ^1.0.1
 
   # api
   dartz: ^0.10.1
@@ -27,8 +26,15 @@ dependencies:
   json_annotation: ^4.7.0
   rxdart: ^0.27.7
 
+  # logger
+  talker_dio_logger: ^1.0.3
+  ansicolor: ^2.0.1
+
   # navigation
   auto_route: ^5.0.4
+
+  # di
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

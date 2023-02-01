@@ -6,8 +6,8 @@ import 'internal/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  locator.setup();
 
+  locator.setup();
   final themeMode = await AdaptiveTheme.getThemeMode();
 
   runApp(App(themeMode: themeMode));

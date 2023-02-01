@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:rick_and_morty/core/error/error.dart';
-import 'package:rick_and_morty/core/error/exception.dart';
 import 'package:rick_and_morty/core/typedef/error_or.dart';
 import 'package:rick_and_morty/data/data_sources/remote/rest_api/character_service.dart';
 import 'package:rick_and_morty/data/mappers/character_mapper.dart';
@@ -25,33 +25,27 @@ class CharacterRepository implements ICharacterRepository {
 
   @override
   Future<ErrorOr<Character>> getCharacterById(int id) async {
-    try {
+    return _requestWrapper(() async {
       final dto = await _service.getCharacterById(id);
-      final entity = await compute(mapCharacter, dto);
-      return Right(entity);
-    } on IException catch (e) {
-      return Left(ServerError(e.message));
-    }
+      return compute(mapCharacter, dto);
+    });
   }
 
   @override
   Future<ErrorOr<Pagination<CharacterCard>>> getCharacters({
     int? page,
-  }) async {
-    try {
+  }) {
+    return _requestWrapper<Pagination<CharacterCard>>(() async {
       final dto = await _service.getCharacters(page);
-      final entity = await compute(mapCharacterResponse, dto);
-      return Right(entity);
-    } on dio.DioError catch (e) {
-      return Left(ServerError(e.message));
-    }
+      return compute(mapCharacterResponse, dto);
+    });
   }
 
   @override
   Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByFilter(
     SearchFilter<CharacterFilter> filter,
   ) async {
-    try {
+    return _requestWrapper<Pagination<CharacterCard>>(() async {
       final dto = await _service.getCharactersByFilter(
         CharacterFilterDto(
           name: filter.filter.name,
@@ -61,23 +55,29 @@ class CharacterRepository implements ICharacterRepository {
           gender: mapGenderDto(filter.filter.gender),
         ),
       );
-      final entity = await compute(mapCharacterResponse, dto);
-      return Right(entity);
-    } on dio.DioError catch (e) {
-      return Left(ServerError(e.message));
-    }
+      return compute(mapCharacterResponse, dto);
+    });
   }
 
   @override
   Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByName(
     String name,
   ) async {
-    try {
+    return _requestWrapper<Pagination<CharacterCard>>(() async {
       final dto = await _service.getCharacterByName(name);
-      final entity = await compute(mapCharacterResponse, dto);
-      return Right(entity);
-    } on dio.DioError catch (e) {
-      return Left(ServerError(e.message));
+      return compute(mapCharacterResponse, dto);
+    });
+  }
+
+  Future<ErrorOr<T>> _requestWrapper<T>(Future<T> Function() request) async {
+    if (await InternetConnectionChecker().hasConnection) {
+      try {
+        final entity = await request();
+        return Right(entity);
+      } on dio.DioError catch (e) {
+        return Left(ServerError(e.message));
+      }
     }
+    return const Left(NetworkError('lost connection'));
   }
 }

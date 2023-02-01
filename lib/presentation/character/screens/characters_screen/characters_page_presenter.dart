@@ -9,10 +9,12 @@ class CharactersPagePresenter implements IPresenter {
 
   late BehaviorSubject<List<CharacterCard>> characterCardsController;
   late BehaviorSubject<Pagination<CharacterCard>> paginationController;
-  late BehaviorSubject<IError> errorController;
+  late BehaviorSubject<IError?> errorController;
   late BehaviorSubject<bool> loadingController;
 
   late StreamSubscription paginationSubscription;
+  late StreamSubscription errorSubscription;
+  late StreamSubscription connectionSubscription;
 
   @override
   void init() {
@@ -24,6 +26,18 @@ class CharactersPagePresenter implements IPresenter {
     paginationSubscription = paginationController.listen((value) {
       final characterCards = characterCardsController.valueOrNull ?? [];
       characterCardsController.add([...characterCards, ...value.results]);
+    });
+
+    errorSubscription = errorController.listen((value) async {
+      if (value is NetworkError) {
+        connectionSubscription =
+            InternetConnectionChecker().onStatusChange.listen((connection) {
+          if (connection == InternetConnectionStatus.connected) {
+            errorController.add(null);
+            getCharacters();
+          }
+        });
+      }
     });
 
     getCharacters();
@@ -53,5 +67,6 @@ class CharactersPagePresenter implements IPresenter {
     loadingController.close();
 
     paginationSubscription.cancel();
+    connectionSubscription.cancel();
   }
 }

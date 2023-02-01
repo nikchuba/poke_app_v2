@@ -15,16 +15,16 @@ dependencies:
   # state management
   provider: ^6.0.5
 
-  # theme
+  # ui
   adaptive_theme: ^3.1.1
 
   # api
   dartz: ^0.10.1
   dio: ^4.0.6
+  internet_connection_checker: ^1.0.0+1
   retrofit: ^3.3.1
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
-  rxdart: ^0.27.7
 
   # logger
   talker_dio_logger: ^1.0.3
@@ -35,6 +35,8 @@ dependencies:
 
   # di
   get_it: ^7.2.0
+
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

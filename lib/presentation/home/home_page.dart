@@ -6,8 +6,6 @@ import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 import 'widgets/bottom_nav_bar/export.dart';
 
-
-
 part 'home_page_presenter.dart';
 part 'home_page_view.dart';
 

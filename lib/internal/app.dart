@@ -2,11 +2,16 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key, this.themeMode});
 
   final AdaptiveThemeMode? themeMode;
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
@@ -20,7 +25,7 @@ class App extends StatelessWidget {
         brightness: Brightness.dark,
         colorSchemeSeed: const Color.fromRGBO(108, 81, 149, 1),
       ),
-      initial: themeMode ?? AdaptiveThemeMode.system,
+      initial: widget.themeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => MaterialApp.router(
         routerDelegate: router.delegate(),
         routeInformationParser: router.defaultRouteParser(),

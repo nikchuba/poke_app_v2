@@ -2,10 +2,10 @@ part of 'characters_page.dart';
 
 class CharactersPagePresenter implements IPresenter {
   CharactersPagePresenter({
-    required this.characterRepository,
-  });
+    required ICharacterRepository repository,
+  }) : _repository = repository;
 
-  final ICharacterRepository characterRepository;
+  final ICharacterRepository _repository;
 
   late BehaviorSubject<List<CharacterCard>> characterCardsController;
   late BehaviorSubject<Pagination<CharacterCard>> paginationController;
@@ -46,7 +46,7 @@ class CharactersPagePresenter implements IPresenter {
   void getCharacters() async {
     if (loadingController.valueOrNull == true) return;
     loadingController.add(true);
-    final either = await characterRepository.getCharacters(
+    final either = await _repository.getCharacters(
       page: paginationController.valueOrNull?.info.nextPage,
     );
     if (either.isRight()) {

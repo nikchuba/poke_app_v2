@@ -23,7 +23,7 @@ class CharactersPage
   CharactersPage({super.key})
       : super(
           presenter: CharactersPagePresenter(
-            characterRepository: locator.get(),
+            repository: locator.get(),
           )..init(),
           view: const CharactersPageView(),
         );

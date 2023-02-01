@@ -35,7 +35,7 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
           FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: widget.card.image,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           ),
           Positioned(

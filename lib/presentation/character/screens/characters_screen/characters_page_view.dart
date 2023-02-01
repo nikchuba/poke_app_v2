@@ -11,28 +11,10 @@ class _CharactersPageViewState extends State<CharactersPageView>
     with TickerProviderStateMixin {
   CharactersPagePresenter get presenter => context.read();
   late final ScrollController controller;
-  late final StreamSubscription errorSubscription;
-
-  late AnimationController _errorAnimationController;
-  late Animation<double> _sizeAnimation;
 
   @override
   void initState() {
     controller = ScrollController()..addListener(_lazyLoad);
-    errorSubscription = presenter.errorController.listen((value) {});
-
-    _errorAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _sizeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _errorAnimationController,
-        curve: Curves.easeOutBack,
-        reverseCurve: Curves.easeOutBack,
-      ),
-    );
-    _errorAnimationController.addListener(_errorAnimationListener);
     super.initState();
   }
 
@@ -40,10 +22,6 @@ class _CharactersPageViewState extends State<CharactersPageView>
   void dispose() {
     controller
       ..removeListener(_lazyLoad)
-      ..dispose();
-    errorSubscription.cancel();
-    _errorAnimationController
-      ..removeListener(_errorAnimationListener)
       ..dispose();
     super.dispose();
   }
@@ -69,10 +47,11 @@ class _CharactersPageViewState extends State<CharactersPageView>
                     if (cards != null) {
                       return SliverGrid(
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
                           mainAxisSpacing: 16,
                           crossAxisSpacing: 16,
+                          mainAxisExtent: 210,
                         ),
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
@@ -113,64 +92,9 @@ class _CharactersPageViewState extends State<CharactersPageView>
               )
             ],
           ),
-          StreamBuilder(
-            stream: presenter.errorController,
-            builder: (context, snapshot) {
-              final message = snapshot.data?.message;
-              if (message != null) {
-                if (_errorAnimationController.status ==
-                    AnimationStatus.dismissed) {
-                  _errorAnimationController.forward();
-                }
-
-                return Positioned(
-                  bottom: 80 + 32,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: ScaleTransition(
-                      scale: _sizeAnimation,
-                      alignment: Alignment.center,
-                      child: IntrinsicWidth(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 20),
-                          margin: const EdgeInsets.symmetric(horizontal: 40),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.errorContainer,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            message,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onErrorContainer),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
         ],
       ),
     );
-  }
-
-  void _errorAnimationListener() async {
-    if (_errorAnimationController.status == AnimationStatus.completed) {
-      await Future.delayed(const Duration(milliseconds: 3000));
-      _errorAnimationController.reverse();
-    }
   }
 
   void _lazyLoad() {

@@ -33,12 +33,12 @@ class _$AppRouter extends RootStackRouter {
         child: CharactersPage(key: args.key),
       );
     },
-    EpisodeRoute.name: (routeData) {
-      final args = routeData.argsAs<EpisodeRouteArgs>(
-          orElse: () => const EpisodeRouteArgs());
+    EpisodesRoute.name: (routeData) {
+      final args = routeData.argsAs<EpisodesRouteArgs>(
+          orElse: () => const EpisodesRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: EpisodePage(key: args.key),
+        child: EpisodesPage(key: args.key),
       );
     },
     LocationRoute.name: (routeData) {
@@ -47,6 +47,18 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: LocationPage(key: args.key),
+      );
+    },
+    SeasonRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SeasonRouteArgs>(
+          orElse: () => SeasonRouteArgs(id: pathParams.getInt('id')));
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SeasonPage(
+          key: args.key,
+          id: args.id,
+        ),
       );
     },
   };
@@ -69,9 +81,16 @@ class _$AppRouter extends RootStackRouter {
               parent: HomeRoute.name,
             ),
             RouteConfig(
-              EpisodeRoute.name,
+              EpisodesRoute.name,
               path: 'episodes',
               parent: HomeRoute.name,
+              children: [
+                RouteConfig(
+                  SeasonRoute.name,
+                  path: ':id',
+                  parent: EpisodesRoute.name,
+                )
+              ],
             ),
             RouteConfig(
               LocationRoute.name,
@@ -141,26 +160,29 @@ class CharactersRouteArgs {
 }
 
 /// generated route for
-/// [EpisodePage]
-class EpisodeRoute extends PageRouteInfo<EpisodeRouteArgs> {
-  EpisodeRoute({Key? key})
-      : super(
-          EpisodeRoute.name,
+/// [EpisodesPage]
+class EpisodesRoute extends PageRouteInfo<EpisodesRouteArgs> {
+  EpisodesRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EpisodesRoute.name,
           path: 'episodes',
-          args: EpisodeRouteArgs(key: key),
+          args: EpisodesRouteArgs(key: key),
+          initialChildren: children,
         );
 
-  static const String name = 'EpisodeRoute';
+  static const String name = 'EpisodesRoute';
 }
 
-class EpisodeRouteArgs {
-  const EpisodeRouteArgs({this.key});
+class EpisodesRouteArgs {
+  const EpisodesRouteArgs({this.key});
 
   final Key? key;
 
   @override
   String toString() {
-    return 'EpisodeRouteArgs{key: $key}';
+    return 'EpisodesRouteArgs{key: $key}';
   }
 }
 
@@ -185,5 +207,40 @@ class LocationRouteArgs {
   @override
   String toString() {
     return 'LocationRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [SeasonPage]
+class SeasonRoute extends PageRouteInfo<SeasonRouteArgs> {
+  SeasonRoute({
+    Key? key,
+    required int id,
+  }) : super(
+          SeasonRoute.name,
+          path: ':id',
+          args: SeasonRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
+        );
+
+  static const String name = 'SeasonRoute';
+}
+
+class SeasonRouteArgs {
+  const SeasonRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'SeasonRouteArgs{key: $key, id: $id}';
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 import 'package:rick_and_morty/domain/entities/enums/status.dart';
+import 'package:rick_and_morty/libraries/ui/variables.dart';
 
 class CharacterCardWidget extends StatefulWidget {
   const CharacterCardWidget({super.key, required this.card});
@@ -51,7 +52,6 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
                   colors: [
                     colorScheme.surfaceVariant,
                     colorScheme.primaryContainer.withOpacity(.5),
-                    
                   ],
                 ),
               ),
@@ -124,70 +124,3 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
     }
   }
 }
-
-final kTransparentImage = Uint8List.fromList(<int>[
-  0x89,
-  0x50,
-  0x4E,
-  0x47,
-  0x0D,
-  0x0A,
-  0x1A,
-  0x0A,
-  0x00,
-  0x00,
-  0x00,
-  0x0D,
-  0x49,
-  0x48,
-  0x44,
-  0x52,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x08,
-  0x06,
-  0x00,
-  0x00,
-  0x00,
-  0x1F,
-  0x15,
-  0xC4,
-  0x89,
-  0x00,
-  0x00,
-  0x00,
-  0x0A,
-  0x49,
-  0x44,
-  0x41,
-  0x54,
-  0x78,
-  0x9C,
-  0x63,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x05,
-  0x00,
-  0x01,
-  0x0D,
-  0x0A,
-  0x2D,
-  0xB4,
-  0x00,
-  0x00,
-  0x00,
-  0x00,
-  0x49,
-  0x45,
-  0x4E,
-  0x44,
-  0xAE,
-]);

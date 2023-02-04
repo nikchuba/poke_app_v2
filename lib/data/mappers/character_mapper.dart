@@ -24,7 +24,7 @@ Character mapCharacter(CharacterDto dto) {
   );
 }
 
-Pagination<CharacterCard> mapCharacterResponse(CharacterResponseDto dto) {
+Pagination<CharacterCard> mapCharacterPagination(CharacterResponseDto dto) {
   return Pagination(
     info: mapResponseInfo(dto.info),
     results: dto.results.map(mapCharacterCard).toList(),
@@ -38,4 +38,10 @@ CharacterCard mapCharacterCard(CharacterCardDto dto) {
     status: mapStatus(dto.status),
     image: dto.image,
   );
+}
+
+List<int> mapCharacterIds(List<Uri> characters) {
+  return characters
+      .map((character) => int.parse(character.pathSegments.last))
+      .toList();
 }

@@ -21,7 +21,5 @@ class PaginationInfo {
     return int.parse(page);
   }
 
-  Uri _getUri(String url) =>
-     Uri.parse(url);
-
+  Uri _getUri(String url) => Uri.parse(url);
 }

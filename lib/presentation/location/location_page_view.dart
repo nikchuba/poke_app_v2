@@ -10,12 +10,10 @@ class LocationPageView extends StatefulWidget {
 class _LocationPageViewState extends State<LocationPageView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
-            title: const Text('LOCATIONS'),
-          ),
+          BlurredSliverAppBar(title: 'Locations')
         ],
       ),
     );

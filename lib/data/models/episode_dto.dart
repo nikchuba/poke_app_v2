@@ -12,7 +12,7 @@ abstract class EpisodeDto with _$EpisodeDto {
     required String name,
     @JsonKey(name: 'air_date') required String airDate,
     required String episode,
-    required List<String> characters,
+    required List<Uri> characters,
   }) = _EpisodeDto;
 
   factory EpisodeDto.fromJson(Map<String, Object?> json) =>

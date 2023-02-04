@@ -10,4 +10,3 @@ void setup() {
   service_container.init(locator);
   repository_container.init(locator);
 }
-

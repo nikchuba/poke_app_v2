@@ -66,13 +66,13 @@ class _CharacterService implements CharacterService {
   }
 
   @override
-  Future<CharacterResponseDto> getCharactersByIds(ids) async {
+  Future<List<CharacterCardDto>> getCharactersByIds(ids) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CharacterResponseDto>(Options(
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<CharacterCardDto>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -84,7 +84,10 @@ class _CharacterService implements CharacterService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = await compute(deserializeCharacterResponseDto, _result.data!);
+    var value = await compute(
+      deserializeCharacterCardDtoList,
+      _result.data!.cast<Map<String, dynamic>>(),
+    );
     return value;
   }
 

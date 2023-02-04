@@ -11,7 +11,10 @@ void init(GetIt locator) {
     CharacterRepository(service: locator.get()),
   );
   locator.registerSingleton<IEpisodeRepository>(
-    EpisodeRepository(service: locator.get()),
+    EpisodeRepository(
+      episodeService: locator.get(),
+      characterService: locator.get(),
+    ),
   );
   locator.registerSingleton<ILocationRepository>(
     LocationRepository(service: locator.get()),

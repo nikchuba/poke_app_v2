@@ -13,7 +13,7 @@ _$_EpisodeDto _$$_EpisodeDtoFromJson(Map<String, dynamic> json) =>
       airDate: json['air_date'] as String,
       episode: json['episode'] as String,
       characters: (json['characters'] as List<dynamic>)
-          .map((e) => e as String)
+          .map((e) => Uri.parse(e as String))
           .toList(),
     );
 
@@ -23,5 +23,5 @@ Map<String, dynamic> _$$_EpisodeDtoToJson(_$_EpisodeDto instance) =>
       'name': instance.name,
       'air_date': instance.airDate,
       'episode': instance.episode,
-      'characters': instance.characters,
+      'characters': instance.characters.map((e) => e.toString()).toList(),
     };

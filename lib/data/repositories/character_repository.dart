@@ -37,7 +37,7 @@ class CharacterRepository implements ICharacterRepository {
   }) {
     return _requestWrapper<Pagination<CharacterCard>>(() async {
       final dto = await _service.getCharacters(page);
-      return compute(mapCharacterResponse, dto);
+      return compute(mapCharacterPagination, dto);
     });
   }
 
@@ -55,7 +55,7 @@ class CharacterRepository implements ICharacterRepository {
           gender: mapGenderDto(filter.filter.gender),
         ),
       );
-      return compute(mapCharacterResponse, dto);
+      return compute(mapCharacterPagination, dto);
     });
   }
 
@@ -65,7 +65,7 @@ class CharacterRepository implements ICharacterRepository {
   ) async {
     return _requestWrapper<Pagination<CharacterCard>>(() async {
       final dto = await _service.getCharacterByName(name);
-      return compute(mapCharacterResponse, dto);
+      return compute(mapCharacterPagination, dto);
     });
   }
 

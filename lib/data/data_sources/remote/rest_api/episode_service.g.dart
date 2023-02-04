@@ -65,6 +65,29 @@ class _EpisodeService implements EpisodeService {
   }
 
   @override
+  Future<EpisodeResponseDto> getEpisodesBySeason(season) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'episode': season};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EpisodeResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/episode',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = await compute(deserializeEpisodeResponseDto, _result.data!);
+    return value;
+  }
+
+  @override
   Future<EpisodeResponseDto> getEpisodeByName(name) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'name': name};

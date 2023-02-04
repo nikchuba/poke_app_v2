@@ -11,22 +11,22 @@ class _HomePageViewState extends State<HomePageView>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
-      physics: const NeverScrollableScrollPhysics(),
+    return AutoTabsRouter(
       routes: [
         CharactersRoute(),
-        EpisodeRoute(),
+        EpisodesRoute(),
         LocationRoute(),
       ],
-      builder: (context, child, controller) {
-        final tabsRouter = AutoTabsRouter.of(context);
+      builder: (context, child, animation) {
+        final tabs = AutoTabsRouter.of(context);
         return Scaffold(
           body: Stack(
             children: [
               child,
               Positioned(
-                top: 56,
                 right: 0,
+                left: 0,
+                bottom: 80 + 20,
                 child: ValueListenableBuilder<AdaptiveThemeMode>(
                   valueListenable: AdaptiveTheme.of(context).modeChangeNotifier,
                   builder: (context, snapshot, _) {
@@ -49,8 +49,8 @@ class _HomePageViewState extends State<HomePageView>
                 right: 0,
                 child: Center(
                   child: BottomNavBar(
-                    currentIndex: tabsRouter.activeIndex,
-                    onTap: tabsRouter.setActiveIndex,
+                    currentIndex: tabs.activeIndex,
+                    onTap: tabs.setActiveIndex,
                     items: [
                       BottomNavBarItem(
                         activeIcon: const Icon(Icons.person_2),
@@ -71,12 +71,12 @@ class _HomePageViewState extends State<HomePageView>
                   ),
                 ),
               ),
-              const Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: InternetConnectionSnackbar(),
-              ),
+              // const Positioned(
+              //   top: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: InternetConnectionSnackbar(),
+              // ),
             ],
           ),
         );

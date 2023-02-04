@@ -25,7 +25,7 @@ mixin _$EpisodeDto {
   @JsonKey(name: 'air_date')
   String get airDate => throw _privateConstructorUsedError;
   String get episode => throw _privateConstructorUsedError;
-  List<String> get characters => throw _privateConstructorUsedError;
+  List<Uri> get characters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +44,7 @@ abstract class $EpisodeDtoCopyWith<$Res> {
       String name,
       @JsonKey(name: 'air_date') String airDate,
       String episode,
-      List<String> characters});
+      List<Uri> characters});
 }
 
 /// @nodoc
@@ -86,7 +86,7 @@ class _$EpisodeDtoCopyWithImpl<$Res, $Val extends EpisodeDto>
       characters: null == characters
           ? _value.characters
           : characters // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Uri>,
     ) as $Val);
   }
 }
@@ -104,7 +104,7 @@ abstract class _$$_EpisodeDtoCopyWith<$Res>
       String name,
       @JsonKey(name: 'air_date') String airDate,
       String episode,
-      List<String> characters});
+      List<Uri> characters});
 }
 
 /// @nodoc
@@ -144,7 +144,7 @@ class __$$_EpisodeDtoCopyWithImpl<$Res>
       characters: null == characters
           ? _value._characters
           : characters // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Uri>,
     ));
   }
 }
@@ -157,7 +157,7 @@ class _$_EpisodeDto implements _EpisodeDto {
       required this.name,
       @JsonKey(name: 'air_date') required this.airDate,
       required this.episode,
-      required final List<String> characters})
+      required final List<Uri> characters})
       : _characters = characters;
 
   factory _$_EpisodeDto.fromJson(Map<String, dynamic> json) =>
@@ -172,9 +172,9 @@ class _$_EpisodeDto implements _EpisodeDto {
   final String airDate;
   @override
   final String episode;
-  final List<String> _characters;
+  final List<Uri> _characters;
   @override
-  List<String> get characters {
+  List<Uri> get characters {
     if (_characters is EqualUnmodifiableListView) return _characters;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_characters);
@@ -223,7 +223,7 @@ abstract class _EpisodeDto implements EpisodeDto {
       required final String name,
       @JsonKey(name: 'air_date') required final String airDate,
       required final String episode,
-      required final List<String> characters}) = _$_EpisodeDto;
+      required final List<Uri> characters}) = _$_EpisodeDto;
 
   factory _EpisodeDto.fromJson(Map<String, dynamic> json) =
       _$_EpisodeDto.fromJson;
@@ -238,7 +238,7 @@ abstract class _EpisodeDto implements EpisodeDto {
   @override
   String get episode;
   @override
-  List<String> get characters;
+  List<Uri> get characters;
   @override
   @JsonKey(ignore: true)
   _$$_EpisodeDtoCopyWith<_$_EpisodeDto> get copyWith =>

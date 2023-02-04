@@ -18,5 +18,9 @@ abstract class EpisodeService {
   Future<EpisodeDto> getEpisodeById(@Path() int id);
 
   @GET(ApiUrl.episode)
+  Future<EpisodeResponseDto> getEpisodesBySeason(
+      @Query('episode') String season);
+
+  @GET(ApiUrl.episode)
   Future<EpisodeResponseDto> getEpisodeByName(@Query('name') String name);
 }

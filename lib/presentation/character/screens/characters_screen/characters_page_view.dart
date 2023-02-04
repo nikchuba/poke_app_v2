@@ -10,10 +10,13 @@ class CharactersPageView extends StatefulWidget {
 class _CharactersPageViewState extends State<CharactersPageView>
     with TickerProviderStateMixin {
   CharactersPagePresenter get presenter => context.read();
+  ColorScheme get colorScheme => Theme.of(context).colorScheme;
+  TextTheme get textTheme => Theme.of(context).textTheme;
   late final ScrollController controller;
 
   @override
   void initState() {
+    presenter.getCharacters();
     controller = ScrollController()..addListener(_lazyLoad);
     super.initState();
   }
@@ -34,39 +37,32 @@ class _CharactersPageViewState extends State<CharactersPageView>
           CustomScrollView(
             controller: controller,
             slivers: [
-              SliverAppBar.large(
-                title: const Text('CHARACTERS'),
-                centerTitle: false,
-              ),
+              const BlurredSliverAppBar(title: 'Characters'),
               SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: StreamBuilder(
+                  initialData: const <CharacterCard>[],
                   stream: presenter.characterCardsController,
                   builder: (context, snapshot) {
-                    final cards = snapshot.data;
-                    if (cards != null) {
-                      return SliverGrid(
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 16,
-                          mainAxisExtent: 210,
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final card = cards[index];
-                            return CharacterCardWidget(
-                              key: ValueKey(card.id),
-                              card: card,
-                            );
-                          },
-                          childCount: cards.length,
-                        ),
-                      );
-                    }
-                    return const SliverToBoxAdapter(
-                      child: SizedBox(),
+                    final cards = snapshot.data!;
+                    return SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        mainAxisExtent: 210,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final card = cards[index];
+                          return CharacterCardWidget(
+                            key: ValueKey(card.id),
+                            card: card,
+                          );
+                        },
+                        childCount: cards.length,
+                      ),
                     );
                   },
                 ),

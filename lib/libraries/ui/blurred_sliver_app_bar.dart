@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +20,14 @@ class BlurredSliverAppBar extends StatelessWidget {
       pinned: true,
       delegate: _FloatingSegmentedControl(
         title: title,
+        context: context,
         bottom: bottom,
       ),
     );
   }
 }
 
-const _maxTitleSize = 28.0;
+const _maxTitleSize = 42.0;
 const _minTitleSize = 24.0;
 const _minTitlePadding = 16.0;
 const _maxTitlePadding = 48.0;
@@ -36,11 +38,15 @@ class _FloatingSegmentedControl<T extends Object>
     extends SliverPersistentHeaderDelegate {
   _FloatingSegmentedControl({
     required this.title,
+    required this.context,
     this.bottom,
-  })  : _minHeaderExtent = bottom != null ? 122 : 64,
-        _maxHeaderExtent = bottom != null ? 200 : 142;
+  })  : _minHeaderExtent =
+            (bottom != null ? 122 : 64) + MediaQuery.of(context).padding.top,
+        _maxHeaderExtent =
+            (bottom != null ? 200 : 142) + MediaQuery.of(context).padding.top;
 
   final String title;
+  final BuildContext context;
   final Widget? bottom;
   final double _minHeaderExtent;
   final double _maxHeaderExtent;
@@ -56,12 +62,14 @@ class _FloatingSegmentedControl<T extends Object>
     Color shadowColor = colorScheme.surfaceTint;
 
     final progress = shrinkOffset / maxExtent;
-    final currentTitleSize =
-        (_maxTitleSize * (1 - progress)).clamp(_minTitleSize, _maxTitleSize);
+    final currentTitleSize = 
+        (_maxTitleSize * (1 - getCoeff(1) * progress))
+            .clamp(_minTitleSize, _maxTitleSize);
     final currentBlur = (_maxBlur * progress).clamp(0.0, _maxBlur);
     final currentLeftTitlePadding =
-        (_maxTitlePadding * progress).clamp(_minTitlePadding, _maxTitlePadding);
-    final currentBottomSize = 1 + (0.85 - 1) * progress;
+        (_maxTitlePadding * (getCoeff(1.3) * math.pow(progress, .3)))
+            .clamp(_minTitlePadding, _maxTitlePadding);
+    final currentBottomSize = (1 * (1 - getCoeff(1) * progress)).clamp(0.85, 1.0);
 
     return SizedBox(
       width: double.infinity,
@@ -77,18 +85,25 @@ class _FloatingSegmentedControl<T extends Object>
               right: _minTitlePadding,
             ),
             width: double.infinity,
-            height: 64,
+            height: 64 + MediaQuery.of(context).padding.top,
             decoration: BoxDecoration(
-                color: background.withOpacity(0.7),
-                borderRadius: _shape.borderRadius),
-            alignment: Alignment.centerLeft,
+              color: background.withOpacity(0.7),
+              borderRadius: _shape.borderRadius,
+            ),
+            alignment: Alignment.bottomLeft,
             child: BackdropFilter(
               filter:
                   ImageFilter.blur(sigmaX: currentBlur, sigmaY: currentBlur),
-              child: Text(
-                title,
-                style: textTheme.headlineLarge
-                    ?.copyWith(fontSize: currentTitleSize, color: shadowColor),
+              child: SizedBox(
+                height: 64,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    style: textTheme.headlineLarge?.copyWith(
+                        fontSize: currentTitleSize, color: shadowColor),
+                  ),
+                ),
               ),
             ),
           ),
@@ -123,6 +138,10 @@ class _FloatingSegmentedControl<T extends Object>
         ],
       ),
     );
+  }
+
+  double getCoeff(num value) {
+    return value / (bottom == null ? 1 : 0.85);
   }
 
   @override

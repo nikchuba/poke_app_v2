@@ -71,12 +71,12 @@ class _HomePageViewState extends State<HomePageView>
                   ),
                 ),
               ),
-              // const Positioned(
-              //   top: 0,
-              //   left: 0,
-              //   right: 0,
-              //   child: InternetConnectionSnackbar(),
-              // ),
+              const Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: InternetConnectionSnackbar(),
+              ),
             ],
           ),
         );

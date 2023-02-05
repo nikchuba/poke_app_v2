@@ -1,13 +1,14 @@
-part of 'episodes_page.dart';
+part of 'seasons_page.dart';
 
-class EpisodesPagePresenter implements IPresenter {
-  EpisodesPagePresenter({
+class SeasonsPagePresenter implements IPresenter {
+  SeasonsPagePresenter({
     required IEpisodeRepository repository,
   }) : _repository = repository;
 
   final IEpisodeRepository _repository;
 
-  late BehaviorSubject<List<Episode>> episodesController;
+  late int season;
+  late List<BehaviorSubject<List<Episode>>> seasonsController;
   late BehaviorSubject<Pagination<Episode>> paginationController;
   late BehaviorSubject<IError?> errorController;
   late BehaviorSubject<bool> loadingController;
@@ -18,13 +19,13 @@ class EpisodesPagePresenter implements IPresenter {
 
   @override
   void init() {
-    episodesController = BehaviorSubject();
+    seasonsController = List.generate(5, (index) => BehaviorSubject());
     paginationController = BehaviorSubject();
     errorController = BehaviorSubject();
     loadingController = BehaviorSubject();
 
     paginationSubscription = paginationController.listen((value) {
-      episodesController.add(value.results);
+      seasonsController[season].add(value.results);
     });
 
     errorSubscription = errorController.listen((value) async {
@@ -55,7 +56,9 @@ class EpisodesPagePresenter implements IPresenter {
 
   @override
   void dispose() {
-    episodesController.close();
+    for (var element in seasonsController) {
+      element.close();
+    }
     paginationController.close();
     errorController.close();
     loadingController.close();

@@ -12,9 +12,7 @@ class _LocationPageViewState extends State<LocationPageView> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: CustomScrollView(
-        slivers: [
-          BlurredSliverAppBar(title: 'Locations')
-        ],
+        slivers: [BlurredSliverAppBar(title: 'Locations')],
       ),
     );
   }

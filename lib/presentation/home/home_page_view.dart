@@ -13,8 +13,8 @@ class _HomePageViewState extends State<HomePageView>
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: [
-        CharactersRoute(),
-        EpisodesRoute(),
+        const CharactersTab(),
+        const SeasonsTab(),
         LocationRoute(),
       ],
       builder: (context, child, animation) {

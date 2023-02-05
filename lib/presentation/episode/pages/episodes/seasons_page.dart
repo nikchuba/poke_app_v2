@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:provider/provider.dart';
 import 'package:rick_and_morty/core/error/error.dart';
 import 'package:rick_and_morty/domain/entities/episode.dart';
 import 'package:rick_and_morty/domain/entities/pagination.dart';
@@ -19,16 +20,17 @@ import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 
-part 'episodes_page_presenter.dart';
-part 'episodes_page_view.dart';
+part 'seasons_page_presenter.dart';
+part 'seasons_page_view.dart';
 
-class EpisodesPage extends IScreen<EpisodesPagePresenter, EpisodesPageView> {
-  EpisodesPage({super.key})
+class SeasonsPage extends IScreen<SeasonsPagePresenter, SeasonsPageView> {
+  SeasonsPage({super.key})
       : super(
-          presenter: EpisodesPagePresenter(
+          presenter: SeasonsPagePresenter(
             repository: locator.get(),
           )..init(),
-          view: const EpisodesPageView(),
+          view: const SeasonsPageView(),
         );
 }

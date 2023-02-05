@@ -38,6 +38,25 @@ class _CharactersPageViewState extends State<CharactersPageView>
             controller: controller,
             slivers: [
               const BlurredSliverAppBar(title: 'Characters'),
+              SliverToBoxAdapter(
+                child: Center(
+                  child: PhotoHero(
+                    icon: Icons.access_time_filled_outlined,
+                    width: 300.0,
+                    onTap: () {
+                      // final route = router.currentChild;
+                      context.navigateTo(CharacterCardDetailRoute());
+                      // print(router);
+                      // Navigator.of(context).push(MaterialPageRoute<void>(
+                      //     fullscreenDialog: true,
+                      //     allowSnapshotting: false,
+                      //     builder: (BuildContext context) {
+                      //       return CharacterCardDetailPage();
+                      //     }));
+                    },
+                  ),
+                ),
+              ),
               SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: StreamBuilder(
@@ -100,5 +119,34 @@ class _CharactersPageViewState extends State<CharactersPageView>
     if (indicator < 100 && scrollDirection == ScrollDirection.reverse) {
       presenter.getCharacters();
     }
+  }
+}
+
+class PhotoHero extends StatelessWidget {
+  const PhotoHero(
+      {Key? key, required this.icon, required this.onTap, required this.width})
+      : super(key: key);
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final double width;
+
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Hero(
+        tag: icon,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: Icon(
+              icon,
+              // fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

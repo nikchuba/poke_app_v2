@@ -32,7 +32,7 @@ class BottomNavBar extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
           color: background.withOpacity(0.7),
           boxShadow: [
             BoxShadow(

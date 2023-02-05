@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class BlurredSliverAppBar extends StatelessWidget {
@@ -12,7 +12,7 @@ class BlurredSliverAppBar extends StatelessWidget {
   });
 
   final String title;
-  final CupertinoSlidingSegmentedControl? bottom;
+  final PreferredSize? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,15 @@ class BlurredSliverAppBar extends StatelessWidget {
   }
 }
 
-const _maxTitleSize = 42.0;
-const _minTitleSize = 24.0;
+const _toolbarHeight = 64.0;
+const _expandedToolbarHeight = 150.0;
+const _minTitleFontSize = 24.0;
+const _maxTitleFontSize = 36.0;
 const _minTitlePadding = 16.0;
 const _maxTitlePadding = 48.0;
-const _maxBottomWidth = 240.0;
+const _betweenPadding = 6.0;
 const _maxBlur = 20.0;
+const _minBlur = 0.0;
 
 class _FloatingSegmentedControl<T extends Object>
     extends SliverPersistentHeaderDelegate {
@@ -40,97 +43,112 @@ class _FloatingSegmentedControl<T extends Object>
     required this.title,
     required this.context,
     this.bottom,
-  })  : _minHeaderExtent =
-            (bottom != null ? 122 : 64) + MediaQuery.of(context).padding.top,
-        _maxHeaderExtent =
-            (bottom != null ? 200 : 142) + MediaQuery.of(context).padding.top;
+    // this.bottomHeight,
+  })  : _minHeaderExtent = _toolbarHeight +
+            _betweenPadding +
+            (bottom != null
+                ? (bottom.preferredSize.height + _betweenPadding)
+                : 0) +
+            MediaQuery.of(context).padding.top,
+        _maxHeaderExtent = _expandedToolbarHeight +
+            (bottom != null
+                ? (bottom.preferredSize.height + _betweenPadding)
+                : 0) +
+            MediaQuery.of(context).padding.top;
 
   final String title;
   final BuildContext context;
-  final Widget? bottom;
+  final PreferredSize? bottom;
   final double _minHeaderExtent;
   final double _maxHeaderExtent;
 
   static const RoundedRectangleBorder _shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)));
+      borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)));
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-    TextTheme textTheme = Theme.of(context).textTheme;
-    Color background = colorScheme.surface;
-    Color shadowColor = colorScheme.surfaceTint;
+    final bool isLightTheme = AdaptiveTheme.of(context).mode.isLight;
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final background = colors.surface;
+    final surfaceTint = colors.surfaceTint;
 
     final progress = shrinkOffset / maxExtent;
-    final currentTitleSize = 
-        (_maxTitleSize * (1 - getCoeff(1) * progress))
-            .clamp(_minTitleSize, _maxTitleSize);
-    final currentBlur = (_maxBlur * progress).clamp(0.0, _maxBlur);
+    final currentTitleSize = (_maxTitleFontSize * (1 - getCoeff(1) * progress))
+        .clamp(_minTitleFontSize, _maxTitleFontSize);
+    final currentBlur = (_maxBlur * progress).clamp(_minBlur, _maxBlur);
     final currentLeftTitlePadding =
         (_maxTitlePadding * (getCoeff(1.3) * math.pow(progress, .3)))
             .clamp(_minTitlePadding, _maxTitlePadding);
-    final currentBottomSize = (1 * (1 - getCoeff(1) * progress)).clamp(0.85, 1.0);
+    final currentBottomSize =
+        (1 * (1 - getCoeff(1) * progress)).clamp(0.85, 1.0);
 
     return SizedBox(
       width: double.infinity,
-      height: _maxHeaderExtent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            clipBehavior: Clip.hardEdge,
-            padding: EdgeInsets.only(
-              left: currentLeftTitlePadding,
-              right: _minTitlePadding,
-            ),
-            width: double.infinity,
-            height: 64 + MediaQuery.of(context).padding.top,
-            decoration: BoxDecoration(
-              color: background.withOpacity(0.7),
-              borderRadius: _shape.borderRadius,
-            ),
-            alignment: Alignment.bottomLeft,
-            child: BackdropFilter(
-              filter:
-                  ImageFilter.blur(sigmaX: currentBlur, sigmaY: currentBlur),
-              child: SizedBox(
-                height: 64,
-                child: Align(
+          Expanded(
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: background.withOpacity(0.5),
+                borderRadius: _shape.borderRadius,
+                boxShadow: [
+                  BoxShadow(
+                    color: surfaceTint.withOpacity(
+                      (isLightTheme ? .24 : .08) * progress,
+                    ),
+                    blurRadius: 8,
+                  )
+                ],
+              ),
+              alignment: Alignment.bottomLeft,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: currentBlur,
+                  sigmaY: currentBlur,
+                ),
+                child: Container(
+                  height: _toolbarHeight,
+                  padding: EdgeInsets.only(left: currentLeftTitlePadding),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     title,
                     style: textTheme.headlineLarge?.copyWith(
-                        fontSize: currentTitleSize, color: shadowColor),
+                        fontSize: currentTitleSize, color: surfaceTint),
                   ),
                 ),
               ),
             ),
           ),
+          if (bottom != null) const SizedBox(height: _betweenPadding),
           if (bottom != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Transform.scale(
-                scale: currentBottomSize,
-                child: Center(
-                  child: Container(
-                    width: _maxBottomWidth,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      color: background.withOpacity(.7),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowColor.withOpacity(.08),
-                          blurStyle: BlurStyle.inner,
-                          blurRadius: 8,
-                        )
-                      ],
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                      child: bottom,
-                    ),
+            Transform.scale(
+              scale: currentBottomSize,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: bottom!.preferredSize.height,
+                  width: bottom!.preferredSize.width,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: background.withOpacity(.7),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: surfaceTint.withOpacity(
+                          isLightTheme ? .24 : .08,
+                        ),
+                        blurRadius: 8,
+                      )
+                    ],
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: bottom,
                   ),
                 ),
               ),

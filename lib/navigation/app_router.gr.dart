@@ -25,20 +25,16 @@ class _$AppRouter extends RootStackRouter {
         child: HomePage(key: args.key),
       );
     },
-    CharactersRoute.name: (routeData) {
-      final args = routeData.argsAs<CharactersRouteArgs>(
-          orElse: () => const CharactersRouteArgs());
+    CharactersTab.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: CharactersPage(key: args.key),
+        child: const EmptyRouterScreen(),
       );
     },
-    EpisodesRoute.name: (routeData) {
-      final args = routeData.argsAs<EpisodesRouteArgs>(
-          orElse: () => const EpisodesRouteArgs());
+    SeasonsTab.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: EpisodesPage(key: args.key),
+        child: const EmptyRouterScreen(),
       );
     },
     LocationRoute.name: (routeData) {
@@ -47,6 +43,28 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: LocationPage(key: args.key),
+      );
+    },
+    CharactersRoute.name: (routeData) {
+      final args = routeData.argsAs<CharactersRouteArgs>(
+          orElse: () => const CharactersRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CharactersPage(key: args.key),
+      );
+    },
+    CharacterCardDetailRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CharacterCardDetailPage(),
+      );
+    },
+    SeasonsRoute.name: (routeData) {
+      final args = routeData.argsAs<SeasonsRouteArgs>(
+          orElse: () => const SeasonsRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SeasonsPage(key: args.key),
       );
     },
     SeasonRoute.name: (routeData) {
@@ -76,19 +94,38 @@ class _$AppRouter extends RootStackRouter {
           path: '/home',
           children: [
             RouteConfig(
-              CharactersRoute.name,
+              CharactersTab.name,
               path: 'characters',
-              parent: HomeRoute.name,
-            ),
-            RouteConfig(
-              EpisodesRoute.name,
-              path: 'episodes',
               parent: HomeRoute.name,
               children: [
                 RouteConfig(
-                  SeasonRoute.name,
-                  path: ':id',
-                  parent: EpisodesRoute.name,
+                  CharactersRoute.name,
+                  path: '',
+                  parent: CharactersTab.name,
+                ),
+                RouteConfig(
+                  CharacterCardDetailRoute.name,
+                  path: 'detail',
+                  parent: CharactersTab.name,
+                ),
+              ],
+            ),
+            RouteConfig(
+              SeasonsTab.name,
+              path: 'seasons',
+              parent: HomeRoute.name,
+              children: [
+                RouteConfig(
+                  SeasonsRoute.name,
+                  path: '',
+                  parent: SeasonsTab.name,
+                  children: [
+                    RouteConfig(
+                      SeasonRoute.name,
+                      path: ':id',
+                      parent: SeasonsRoute.name,
+                    )
+                  ],
                 )
               ],
             ),
@@ -136,54 +173,29 @@ class HomeRouteArgs {
 }
 
 /// generated route for
-/// [CharactersPage]
-class CharactersRoute extends PageRouteInfo<CharactersRouteArgs> {
-  CharactersRoute({Key? key})
+/// [EmptyRouterScreen]
+class CharactersTab extends PageRouteInfo<void> {
+  const CharactersTab({List<PageRouteInfo>? children})
       : super(
-          CharactersRoute.name,
+          CharactersTab.name,
           path: 'characters',
-          args: CharactersRouteArgs(key: key),
-        );
-
-  static const String name = 'CharactersRoute';
-}
-
-class CharactersRouteArgs {
-  const CharactersRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'CharactersRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [EpisodesPage]
-class EpisodesRoute extends PageRouteInfo<EpisodesRouteArgs> {
-  EpisodesRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
-          EpisodesRoute.name,
-          path: 'episodes',
-          args: EpisodesRouteArgs(key: key),
           initialChildren: children,
         );
 
-  static const String name = 'EpisodesRoute';
+  static const String name = 'CharactersTab';
 }
 
-class EpisodesRouteArgs {
-  const EpisodesRouteArgs({this.key});
+/// generated route for
+/// [EmptyRouterScreen]
+class SeasonsTab extends PageRouteInfo<void> {
+  const SeasonsTab({List<PageRouteInfo>? children})
+      : super(
+          SeasonsTab.name,
+          path: 'seasons',
+          initialChildren: children,
+        );
 
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'EpisodesRouteArgs{key: $key}';
-  }
+  static const String name = 'SeasonsTab';
 }
 
 /// generated route for
@@ -207,6 +219,69 @@ class LocationRouteArgs {
   @override
   String toString() {
     return 'LocationRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [CharactersPage]
+class CharactersRoute extends PageRouteInfo<CharactersRouteArgs> {
+  CharactersRoute({Key? key})
+      : super(
+          CharactersRoute.name,
+          path: '',
+          args: CharactersRouteArgs(key: key),
+        );
+
+  static const String name = 'CharactersRoute';
+}
+
+class CharactersRouteArgs {
+  const CharactersRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'CharactersRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [CharacterCardDetailPage]
+class CharacterCardDetailRoute extends PageRouteInfo<void> {
+  const CharacterCardDetailRoute()
+      : super(
+          CharacterCardDetailRoute.name,
+          path: 'detail',
+        );
+
+  static const String name = 'CharacterCardDetailRoute';
+}
+
+/// generated route for
+/// [SeasonsPage]
+class SeasonsRoute extends PageRouteInfo<SeasonsRouteArgs> {
+  SeasonsRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SeasonsRoute.name,
+          path: '',
+          args: SeasonsRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'SeasonsRoute';
+}
+
+class SeasonsRouteArgs {
+  const SeasonsRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'SeasonsRouteArgs{key: $key}';
   }
 }
 

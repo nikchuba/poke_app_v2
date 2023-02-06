@@ -7,13 +7,13 @@ import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 import 'widgets/bottom_nav_bar/export.dart';
 
-part 'home_page_presenter.dart';
-part 'home_page_view.dart';
+part 'home_screen_presenter.dart';
+part 'home_screen_view.dart';
 
-class HomePage extends IScreen<HomePagePresenter, HomePageView> {
-  HomePage({super.key})
+class HomeScreen extends IScreen<HomeScreenPresenter, HomeScreenView> {
+  HomeScreen({super.key})
       : super(
-          presenter: HomePagePresenter(),
-          view: const HomePageView(),
+          presenter: HomeScreenPresenter(),
+          view: const HomeScreenView(),
         );
 }

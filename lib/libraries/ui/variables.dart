@@ -1,4 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+const kContentPadding = EdgeInsets.only(
+  left: 16,
+  right: 16,
+  top: 16,
+  bottom: 80 + 32,
+);
 
 final kTransparentImage = Uint8List.fromList(<int>[
   0x89,

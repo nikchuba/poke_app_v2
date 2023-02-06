@@ -1,21 +1,21 @@
-part of 'home_page.dart';
+part of 'home_screen.dart';
 
-class HomePageView extends StatefulWidget {
-  const HomePageView({super.key});
+class HomeScreenView extends StatefulWidget {
+  const HomeScreenView({super.key});
 
   @override
-  State<HomePageView> createState() => _HomePageViewState();
+  State<HomeScreenView> createState() => _HomeScreenViewState();
 }
 
-class _HomePageViewState extends State<HomePageView>
+class _HomeScreenViewState extends State<HomeScreenView>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: [
-        const CharactersTab(),
-        const SeasonsTab(),
-        LocationRoute(),
+    return AutoTabsRouter.tabBar(
+      routes: const [
+        CharactersTab(),
+        SeasonsTab(),
+        LocationsTab(),
       ],
       builder: (context, child, animation) {
         final tabs = AutoTabsRouter.of(context);

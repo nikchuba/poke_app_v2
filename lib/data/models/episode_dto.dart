@@ -10,6 +10,7 @@ abstract class EpisodeDto with _$EpisodeDto {
   const factory EpisodeDto({
     required int id,
     required String name,
+    // ignore: invalid_annotation_target
     @JsonKey(name: 'air_date') required String airDate,
     required String episode,
     required List<Uri> characters,

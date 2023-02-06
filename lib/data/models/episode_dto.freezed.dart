@@ -21,7 +21,8 @@ EpisodeDto _$EpisodeDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$EpisodeDto {
   int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'air_date')
   String get airDate => throw _privateConstructorUsedError;
   String get episode => throw _privateConstructorUsedError;
@@ -167,6 +168,7 @@ class _$_EpisodeDto implements _EpisodeDto {
   final int id;
   @override
   final String name;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'air_date')
   final String airDate;
@@ -232,7 +234,7 @@ abstract class _EpisodeDto implements EpisodeDto {
   int get id;
   @override
   String get name;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: 'air_date')
   String get airDate;
   @override

@@ -1,14 +1,15 @@
-part of 'characters_page.dart';
+part of 'seasons_screen.dart';
 
-class CharactersPagePresenter implements IPresenter {
-  CharactersPagePresenter({
-    required ICharacterRepository repository,
+class SeasonsScreenPresenter implements IPresenter {
+  SeasonsScreenPresenter({
+    required IEpisodeRepository repository,
   }) : _repository = repository;
 
-  final ICharacterRepository _repository;
+  final IEpisodeRepository _repository;
 
-  late BehaviorSubject<List<CharacterCard>> characterCardsController;
-  late BehaviorSubject<Pagination<CharacterCard>> paginationController;
+  late int season;
+  late List<BehaviorSubject<List<Episode>>> seasonsController;
+  late BehaviorSubject<Pagination<Episode>> paginationController;
   late BehaviorSubject<IError?> errorController;
   late BehaviorSubject<bool> loadingController;
 
@@ -18,14 +19,13 @@ class CharactersPagePresenter implements IPresenter {
 
   @override
   void init() {
-    characterCardsController = BehaviorSubject();
+    seasonsController = List.generate(5, (index) => BehaviorSubject());
     paginationController = BehaviorSubject();
     errorController = BehaviorSubject();
     loadingController = BehaviorSubject();
 
     paginationSubscription = paginationController.listen((value) {
-      final characterCards = characterCardsController.valueOrNull ?? [];
-      characterCardsController.add([...characterCards, ...value.results]);
+      seasonsController[season].add(value.results);
     });
 
     errorSubscription = errorController.listen((value) async {
@@ -34,19 +34,16 @@ class CharactersPagePresenter implements IPresenter {
             InternetConnectionChecker().onStatusChange.listen((connection) {
           if (connection == InternetConnectionStatus.connected) {
             errorController.add(null);
-            getCharacters();
           }
         });
       }
     });
   }
 
-  void getCharacters() async {
+  void getEpisodesBySeason(int season) async {
     if (loadingController.valueOrNull == true) return;
     loadingController.add(true);
-    final either = await _repository.getCharacters(
-      page: paginationController.valueOrNull?.info.nextPage,
-    );
+    final either = await _repository.getEpisodesBySeason(season);
     if (either.isRight()) {
       final right = either.asRight();
       paginationController.add(right);
@@ -59,7 +56,9 @@ class CharactersPagePresenter implements IPresenter {
 
   @override
   void dispose() {
-    characterCardsController.close();
+    for (var element in seasonsController) {
+      element.close();
+    }
     paginationController.close();
     errorController.close();
     loadingController.close();

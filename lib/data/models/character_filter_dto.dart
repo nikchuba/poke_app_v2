@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rick_and_morty/data/models/enums/gender_dto.dart';
 

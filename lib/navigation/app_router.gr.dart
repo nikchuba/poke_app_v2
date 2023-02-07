@@ -51,6 +51,28 @@ class _$AppRouter extends RootStackRouter {
         child: CharactersScreen(key: args.key),
       );
     },
+    CharacterDetailsPopup.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<CharacterDetailsPopupArgs>(
+          orElse: () => CharacterDetailsPopupArgs(
+                id: pathParams.getInt('id'),
+                card: queryParams.get('card'),
+                cardRenderBox: queryParams.get('cardRenderBox'),
+              ));
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: CharacterDetailsPopupView(
+          key: args.key,
+          id: args.id,
+          card: args.card,
+          cardRenderBox: args.cardRenderBox,
+        ),
+        customRouteBuilder: CustomRouteBuilders.popupBuilder,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     SeasonsRoute.name: (routeData) {
       final args = routeData.argsAs<SeasonsRouteArgs>(
           orElse: () => const SeasonsRouteArgs());
@@ -103,7 +125,12 @@ class _$AppRouter extends RootStackRouter {
                   CharactersRoute.name,
                   path: '',
                   parent: CharactersTab.name,
-                )
+                ),
+                RouteConfig(
+                  CharacterDetailsPopup.name,
+                  path: ':id',
+                  parent: CharactersTab.name,
+                ),
               ],
             ),
             RouteConfig(
@@ -235,6 +262,55 @@ class CharactersRouteArgs {
   @override
   String toString() {
     return 'CharactersRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [CharacterDetailsPopupView]
+class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
+  CharacterDetailsPopup({
+    Key? key,
+    required int id,
+    CharacterCard? card,
+    RenderBox? cardRenderBox,
+  }) : super(
+          CharacterDetailsPopup.name,
+          path: ':id',
+          args: CharacterDetailsPopupArgs(
+            key: key,
+            id: id,
+            card: card,
+            cardRenderBox: cardRenderBox,
+          ),
+          rawPathParams: {'id': id},
+          rawQueryParams: {
+            'card': card,
+            'cardRenderBox': cardRenderBox,
+          },
+        );
+
+  static const String name = 'CharacterDetailsPopup';
+}
+
+class CharacterDetailsPopupArgs {
+  const CharacterDetailsPopupArgs({
+    this.key,
+    required this.id,
+    this.card,
+    this.cardRenderBox,
+  });
+
+  final Key? key;
+
+  final int id;
+
+  final CharacterCard? card;
+
+  final RenderBox? cardRenderBox;
+
+  @override
+  String toString() {
+    return 'CharacterDetailsPopupArgs{key: $key, id: $id, card: $card, cardRenderBox: $cardRenderBox}';
   }
 }
 

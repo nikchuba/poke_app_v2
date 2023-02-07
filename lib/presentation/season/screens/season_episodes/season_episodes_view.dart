@@ -53,7 +53,8 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                       top: 16,
                       bottom: 80 + 32,
                     ),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 450,
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
@@ -98,8 +99,8 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                                   style: textTheme.displayLarge?.copyWith(
                                     shadows: [
                                       BoxShadow(
-                                        color:
-                                            colorScheme.surfaceTint.withOpacity(.2),
+                                        color: colorScheme.surfaceTint
+                                            .withOpacity(.2),
                                         blurRadius: 16,
                                       ),
                                     ],
@@ -120,11 +121,13 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                               height: 80,
                               clipBehavior: Clip.hardEdge,
                               decoration: BoxDecoration(
-                                color: colorScheme.surfaceVariant.withOpacity(.4),
+                                color:
+                                    colorScheme.surfaceVariant.withOpacity(.4),
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: colorScheme.surfaceTint.withOpacity(.25),
+                                    color: colorScheme.surfaceTint
+                                        .withOpacity(.25),
                                     blurRadius: 12,
                                   ),
                                 ],
@@ -133,7 +136,8 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                                 padding: const EdgeInsets.all(8),
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  final characterCard = episode.characters[index];
+                                  final characterCard =
+                                      episode.characters[index];
                                   return Container(
                                     key: ValueKey(characterCard.id),
                                     clipBehavior: Clip.hardEdge,

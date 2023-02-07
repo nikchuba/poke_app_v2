@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 import 'package:rick_and_morty/domain/entities/enums/status.dart';
 import 'package:rick_and_morty/libraries/ui/variables.dart';
+import 'package:rick_and_morty/navigation/app_router.dart';
 
 class CharacterCardWidget extends StatefulWidget {
   const CharacterCardWidget({super.key, required this.card});
@@ -20,7 +22,15 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: Feedback.wrapForTap(() {}, context),
+      onPressed: Feedback.wrapForTap(() {
+        final box = context.findRenderObject() as RenderBox?;
+        print('RenderBox: ${box}');
+        context.pushRoute(CharacterDetailsPopup(
+          id: widget.card.id,
+          card: widget.card,
+          cardRenderBox: box,
+        ));
+      }, context),
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(

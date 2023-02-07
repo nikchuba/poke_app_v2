@@ -19,17 +19,19 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
   late final ScrollController scrollController;
   Map<int, Widget>? segmentedControls;
 
+  final keys = List.generate(5, (index) => ValueKey('Tab-${index + 1}'));
+
   @override
   void initState() {
     presenter = context.read();
     scrollController = ScrollController();
-    routes = [
-      SeasonEpisodesTabView(key: const ValueKey(1), seasonId: 1),
-      SeasonEpisodesTabView(key: const ValueKey(2), seasonId: 2),
-      SeasonEpisodesTabView(key: const ValueKey(3), seasonId: 3),
-      SeasonEpisodesTabView(key: const ValueKey(4), seasonId: 4),
-      SeasonEpisodesTabView(key: const ValueKey(5), seasonId: 5),
-    ];
+    routes = List.generate(
+      5,
+      (index) => SeasonEpisodesTabView(
+        key: keys.elementAt(index),
+        seasonId: index + 1,
+      ),
+    );
 
     super.initState();
   }
@@ -48,9 +50,8 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
+    return AutoTabsRouter.tabBar(
       routes: routes,
-      // animatePageTransition: true,
       builder: (context, child, animation) {
         final tabsRouter = AutoTabsRouter.of(context);
         presenter.season = tabsRouter.activeIndex;
@@ -80,28 +81,7 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
                     child: SizedBox(height: 10),
                   ),
                 ],
-                body: ExtendedVisibilityDetector(
-                  uniqueKey: ValueKey('Tab-${tabsRouter.activeIndex}'),
-                  child: FadeTransition(
-                    opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-                      CurvedAnimation(
-                        parent: animation,
-                        curve:
-                            const Interval(0.0, 1.0, curve: Curves.decelerate),
-                      ),
-                    ),
-                    child: ScaleTransition(
-                      scale: Tween<double>(begin: 0.7, end: 1.0).animate(
-                        CurvedAnimation(
-                          parent: animation,
-                          curve: const Interval(0, 1.0,
-                              curve: Curves.decelerate),
-                        ),
-                      ),
-                      child: child,
-                    ),
-                  ),
-                ),
+                body: child,
               ),
               LoadingIndicator(
                 isLoading: presenter.loadingController,

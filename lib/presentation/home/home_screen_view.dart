@@ -11,7 +11,7 @@ class _HomeScreenViewState extends State<HomeScreenView>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.tabBar(
+    return AutoTabsRouter(
       routes: const [
         CharactersTab(),
         SeasonsTab(),
@@ -22,7 +22,10 @@ class _HomeScreenViewState extends State<HomeScreenView>
         return Scaffold(
           body: Stack(
             children: [
-              child,
+              FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
               Positioned(
                 right: 0,
                 left: 0,

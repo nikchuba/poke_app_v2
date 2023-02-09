@@ -15,7 +15,7 @@ class SeasonsScreenPresenter implements IPresenter {
 
   late StreamSubscription paginationSubscription;
   late StreamSubscription errorSubscription;
-  late StreamSubscription connectionSubscription;
+  late StreamSubscription? connectionSubscription;
 
   @override
   void init() {
@@ -31,9 +31,12 @@ class SeasonsScreenPresenter implements IPresenter {
     errorSubscription = errorController.listen((value) async {
       if (value is NetworkError) {
         connectionSubscription =
-            InternetConnectionChecker().onStatusChange.listen((connection) {
-          if (connection == InternetConnectionStatus.connected) {
+            UniversalInternetChecker().onConnectionChange.listen((status) {
+          if (status == ConnectionStatus.online) {
             errorController.add(null);
+            getEpisodesBySeason(season + 1);
+            connectionSubscription!.cancel();
+            connectionSubscription = null;
           }
         });
       }
@@ -64,6 +67,8 @@ class SeasonsScreenPresenter implements IPresenter {
     loadingController.close();
 
     paginationSubscription.cancel();
-    connectionSubscription.cancel();
+    connectionSubscription?.cancel();
+    errorSubscription.cancel();
+    connectionSubscription = null;
   }
 }

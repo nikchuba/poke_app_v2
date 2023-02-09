@@ -33,15 +33,17 @@ class _HomeScreenViewState extends State<HomeScreenView>
                 child: ValueListenableBuilder<AdaptiveThemeMode>(
                   valueListenable: AdaptiveTheme.of(context).modeChangeNotifier,
                   builder: (context, snapshot, _) {
-                    return Switch(
-                      value: snapshot.isDark,
-                      onChanged: (value) {
-                        if (value) {
-                          AdaptiveTheme.of(context).setDark();
-                        } else {
-                          AdaptiveTheme.of(context).setLight();
-                        }
-                      },
+                    return Center(
+                      child: Switch(
+                        value: snapshot.isDark,
+                        onChanged: (value) {
+                          if (value) {
+                            AdaptiveTheme.of(context).setDark();
+                          } else {
+                            AdaptiveTheme.of(context).setLight();
+                          }
+                        },
+                      ),
                     );
                   },
                 ),

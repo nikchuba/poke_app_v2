@@ -3,9 +3,9 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty/domain/entities/episode.dart';
-import 'package:rick_and_morty/libraries/ui/variables.dart';
 
 import '../seasons/seasons_screen.dart';
+import 'widgets/character_card_widget.dart';
 
 class SeasonEpisodesView extends StatefulWidget {
   const SeasonEpisodesView({
@@ -138,18 +138,8 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                                 itemBuilder: (context, index) {
                                   final characterCard =
                                       episode.characters[index];
-                                  return Container(
-                                    key: ValueKey(characterCard.id),
-                                    clipBehavior: Clip.hardEdge,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: FadeInImage.memoryNetwork(
-                                      placeholder: kTransparentImage,
-                                      image: characterCard.image,
-                                      fit: BoxFit.cover,
-                                      filterQuality: FilterQuality.high,
-                                    ),
+                                  return CharacterCardWidget(
+                                    card: characterCard,
                                   );
                                 },
                                 separatorBuilder: (context, _) =>

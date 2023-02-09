@@ -14,7 +14,7 @@ class CharactersScreenPresenter implements IPresenter {
 
   late StreamSubscription paginationSubscription;
   late StreamSubscription errorSubscription;
-  late StreamSubscription connectionSubscription;
+  late StreamSubscription? connectionSubscription;
 
   @override
   void init() {
@@ -31,10 +31,12 @@ class CharactersScreenPresenter implements IPresenter {
     errorSubscription = errorController.listen((value) async {
       if (value is NetworkError) {
         connectionSubscription =
-            InternetConnectionChecker().onStatusChange.listen((connection) {
-          if (connection == InternetConnectionStatus.connected) {
+            UniversalInternetChecker().onConnectionChange.listen((status) {
+          if (status == ConnectionStatus.online) {
             errorController.add(null);
             getCharacters();
+            connectionSubscription!.cancel();
+            connectionSubscription = null;
           }
         });
       }
@@ -65,6 +67,8 @@ class CharactersScreenPresenter implements IPresenter {
     loadingController.close();
 
     paginationSubscription.cancel();
-    connectionSubscription.cancel();
+    connectionSubscription?.cancel();
+    errorSubscription.cancel();
+    connectionSubscription = null;
   }
 }

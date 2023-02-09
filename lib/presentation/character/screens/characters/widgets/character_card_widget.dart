@@ -22,15 +22,13 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: Feedback.wrapForTap(() {
-        final box = context.findRenderObject() as RenderBox?;
-        print('RenderBox: ${box}');
+      onPressed: () {
         context.pushRoute(CharacterDetailsPopup(
           id: widget.card.id,
           card: widget.card,
-          cardRenderBox: box,
+          context: context,
         ));
-      }, context),
+      },
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
@@ -50,7 +48,8 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
               placeholder: kTransparentImage,
               image: widget.card.image,
               fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
+              imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
+              placeholderErrorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
             ),
             Positioned(
               bottom: -1,

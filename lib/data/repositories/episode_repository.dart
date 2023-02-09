@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:dartz/dartz.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:rick_and_morty/core/error/error.dart';
-import 'package:rick_and_morty/core/typedef/error_or.dart';
+import 'package:rick_and_morty/core/repository_helper.dart';
+import 'package:rick_and_morty/core/typedef/either.dart';
 import 'package:rick_and_morty/data/data_sources/remote/rest_api/character_service.dart';
 import 'package:rick_and_morty/data/data_sources/remote/rest_api/episode_service.dart';
 import 'package:rick_and_morty/data/mappers/character_mapper.dart';
@@ -10,8 +10,9 @@ import 'package:rick_and_morty/data/mappers/episode_mapper.dart';
 import 'package:rick_and_morty/domain/entities/pagination.dart';
 import 'package:rick_and_morty/domain/entities/episode.dart';
 import 'package:rick_and_morty/domain/repositories/episode_repository.dart';
+import 'package:universal_internet_checker/universal_internet_checker.dart';
 
-class EpisodeRepository implements IEpisodeRepository {
+class EpisodeRepository with RepositoryHelper implements IEpisodeRepository {
   const EpisodeRepository({
     required EpisodeService episodeService,
     required CharacterService characterService,
@@ -31,6 +32,7 @@ class EpisodeRepository implements IEpisodeRepository {
       }
       final characterCardsDto =
           await _characterService.getCharactersByIds(ids.toList());
+      // final r = compute(mapEpisodeResponse);
       return mapEpisodeResponse(
         dto,
         characterCardsDto,
@@ -39,7 +41,8 @@ class EpisodeRepository implements IEpisodeRepository {
   }
 
   Future<ErrorOr<T>> _requestWrapper<T>(Future<T> Function() request) async {
-    if (await InternetConnectionChecker().hasConnection) {
+    if (await UniversalInternetChecker.checkInternet() ==
+        ConnectionStatus.online) {
       try {
         final entity = await request();
         return Right(entity);

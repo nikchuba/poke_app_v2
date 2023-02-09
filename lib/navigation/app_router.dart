@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'package:rick_and_morty/libraries/ui/abstracts/popup.dart';
 import 'package:rick_and_morty/presentation/character/screens/character_details/character_details_popup_view.dart';
 import 'package:rick_and_morty/presentation/character/screens/characters/characters_screen.dart';
 import 'package:rick_and_morty/presentation/season/screens/season_episodes/season_episodes_view.dart';
@@ -45,12 +46,23 @@ part 'app_router.gr.dart';
           page: EmptyRouterScreen,
           name: 'SeasonsTab',
           children: [
-            AutoRoute(path: '', page: SeasonsScreen, children: [
-              AutoRoute(
+            AutoRoute(
+              path: '',
+              page: SeasonsScreen,
+              children: [
+                AutoRoute(
                   path: ':id',
                   page: SeasonEpisodesView,
-                  name: 'SeasonEpisodesTabView'),
-            ]),
+                  name: 'SeasonEpisodesTabView',
+                ),
+              ],
+            ),
+            CustomRoute(
+              path: ':id',
+              page: CharacterDetailsPopupView,
+              name: 'CharacterDetailsPopup',
+              customRouteBuilder: CustomRouteBuilders.popupBuilder,
+            ),
           ],
         ),
         AutoRoute(
@@ -82,21 +94,11 @@ class CustomTransitionBuilders {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, _) {
-        return Transform.translate(
-          offset: Offset(0 * animation.value, 0),
-          child: Container(
-            width: 400,
-            height: 300,
-            child: child,
-          ),
-        );
-      },
-    );
+    return child;
   }
 }
+
+const _popupRatio = 1.25 / 1;
 
 class CustomRouteBuilders {
   static Route<T> popupBuilder<T>(
@@ -104,61 +106,86 @@ class CustomRouteBuilders {
     Widget child,
     CustomPage<T> page,
   ) {
-    final media = MediaQuery.of(context).size;
-    final childBox = context.findRenderObject() as RenderBox;
-    RenderBox? box;
-    Offset? pos;
-    if (page.name == 'CharacterDetailsPopup') {
-      // final media = MediaQuery.of(context).padding.top;
-      box = (page.arguments as CharacterDetailsPopupArgs).cardRenderBox;
-      pos = box?.localToGlobal(Offset.zero);
-      print(pos);
+    Offset? minCenter;
+    Size? minSize;
+    if (page.name!.toLowerCase().contains('popup')) {
+      final box =
+          (page.child as PopupView).context?.findRenderObject() as RenderBox?;
+      final startOffset = box?.localToGlobal(Offset.zero);
+      minSize = box?.size;
+
+      if (startOffset != null && minSize != null) {
+        minCenter =
+            startOffset.translate(minSize.width / 2, minSize.height / 2);
+      }
     }
+
+    final clientSize = MediaQuery.of(context).size;
+    final clientHeight = clientSize.height, clientWidth = clientSize.width;
+    final maxCenter = Offset(clientWidth / 2, clientHeight / 2);
+    final maxSize = clientWidth >= clientHeight
+        ? Size(clientHeight * 0.7 / _popupRatio, clientHeight * 0.7)
+        : clientWidth > 420
+            ? Size(clientWidth * 0.75, clientWidth * 0.75 * _popupRatio)
+            : Size(clientWidth * 0.9, clientWidth * 0.9 * _popupRatio);
+
+    minCenter ??= Offset(clientWidth / 2, clientHeight / 2);
+    minSize ??= const Size(100, 100);
+
     return PageRouteBuilder(
-      // allowSnapshotting: ,
+      // transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 200),
       fullscreenDialog: false,
       opaque: false,
+      maintainState: false,
       barrierDismissible: true,
-      transitionsBuilder: CustomTransitionBuilders.blurredPopup,
+      barrierColor: Colors.black.withOpacity(.4),
       settings: page,
-      // barrierColor: Colors.amber.withOpacity(.4),
-      pageBuilder: (_, __, ___) {
+      pageBuilder: (_, animation, ___) {
+        final animationCenter = Tween<double>(begin: 0, end: 1).animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOutQuart),
+            ),
+            animationSize = Tween<double>(begin: 0, end: 1).animate(
+              CurvedAnimation(parent: animation, curve: Curves.decelerate),
+            );
+
         return AnimatedBuilder(
-          animation: __,
-          builder: (context, _) {
+          animation: animation,
+          builder: (context, child) {
+            final currentWidth = minSize!.width +
+                (maxSize.width - minSize.width) * animationSize.value;
+            final currentHeight = minSize.height +
+                (maxSize.height - minSize.height) * animationSize.value;
             return Stack(
               children: [
-                Positioned(
-                  top: media.height - pos!.dy > 400 ? pos.dy : null,
-                  bottom: media.height - pos.dy < 400
-                      ? media.height - pos.dy - box!.size.height
-                      : null,
-                  left: pos.dx < 100 ? pos.dx : null,
-                  right: pos.dx > 100
-                      ? media.width - pos.dx - box!.size.width
-                      : null,
-                  width: (300 * __.value).clamp(box!.size.width, 300),
-                  height: (400 * __.value).clamp(box.size.height, 400),
+                Positioned.fromRect(
+                  rect: Rect.fromCenter(
+                    center: Offset(
+                      (minCenter!.dx +
+                          (maxCenter.dx - minCenter.dx) *
+                              animationCenter.value),
+                      (minCenter.dy +
+                          (maxCenter.dy - minCenter.dy) *
+                              animationCenter.value),
+                    ),
+                    width: currentWidth,
+                    height: currentHeight,
+                  ),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(
-                      sigmaX: 20 * __.value,
-                      sigmaY: 20 * __.value,
+                      sigmaX: 20 * animationSize.value,
+                      sigmaY: 20 * animationSize.value,
                     ),
-                    child: FadeTransition(
-                      opacity: __,
-                      child: Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(56 * pow(__.value, 2) as double)
-                        ),
-                        child: child,
-                      ),
+                    child: Opacity(
+                      opacity: animationSize.value,
+                      child: child!,
                     ),
                   ),
                 ),
               ],
             );
           },
+          child: child,
         );
       },
     );

@@ -53,20 +53,15 @@ class _$AppRouter extends RootStackRouter {
     },
     CharacterDetailsPopup.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final queryParams = routeData.queryParams;
       final args = routeData.argsAs<CharacterDetailsPopupArgs>(
-          orElse: () => CharacterDetailsPopupArgs(
-                id: pathParams.getInt('id'),
-                card: queryParams.get('card'),
-                cardRenderBox: queryParams.get('cardRenderBox'),
-              ));
+          orElse: () => CharacterDetailsPopupArgs(id: pathParams.getInt('id')));
       return CustomPage<dynamic>(
         routeData: routeData,
         child: CharacterDetailsPopupView(
           key: args.key,
+          context: args.context,
           id: args.id,
           card: args.card,
-          cardRenderBox: args.cardRenderBox,
         ),
         customRouteBuilder: CustomRouteBuilders.popupBuilder,
         opaque: true,
@@ -149,7 +144,12 @@ class _$AppRouter extends RootStackRouter {
                       parent: SeasonsRoute.name,
                     )
                   ],
-                )
+                ),
+                RouteConfig(
+                  CharacterDetailsPopup.name,
+                  path: ':id',
+                  parent: SeasonsTab.name,
+                ),
               ],
             ),
             RouteConfig(
@@ -270,23 +270,19 @@ class CharactersRouteArgs {
 class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
   CharacterDetailsPopup({
     Key? key,
+    BuildContext? context,
     required int id,
     CharacterCard? card,
-    RenderBox? cardRenderBox,
   }) : super(
           CharacterDetailsPopup.name,
           path: ':id',
           args: CharacterDetailsPopupArgs(
             key: key,
+            context: context,
             id: id,
             card: card,
-            cardRenderBox: cardRenderBox,
           ),
           rawPathParams: {'id': id},
-          rawQueryParams: {
-            'card': card,
-            'cardRenderBox': cardRenderBox,
-          },
         );
 
   static const String name = 'CharacterDetailsPopup';
@@ -295,22 +291,22 @@ class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
 class CharacterDetailsPopupArgs {
   const CharacterDetailsPopupArgs({
     this.key,
+    this.context,
     required this.id,
     this.card,
-    this.cardRenderBox,
   });
 
   final Key? key;
+
+  final BuildContext? context;
 
   final int id;
 
   final CharacterCard? card;
 
-  final RenderBox? cardRenderBox;
-
   @override
   String toString() {
-    return 'CharacterDetailsPopupArgs{key: $key, id: $id, card: $card, cardRenderBox: $cardRenderBox}';
+    return 'CharacterDetailsPopupArgs{key: $key, context: $context, id: $id, card: $card}';
   }
 }
 

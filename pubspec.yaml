@@ -24,7 +24,7 @@ dependencies:
   # api
   dartz: ^0.10.1
   dio: ^4.0.6
-  internet_connection_checker: ^1.0.0+1
+  universal_internet_checker: ^0.1.2
   retrofit: ^3.3.1
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0

@@ -1,4 +1,4 @@
-import 'package:rick_and_morty/core/typedef/error_or.dart';
+import 'package:rick_and_morty/core/typedef/either.dart';
 import 'package:rick_and_morty/domain/entities/search_filter.dart';
 
 import '../entities/character.dart';

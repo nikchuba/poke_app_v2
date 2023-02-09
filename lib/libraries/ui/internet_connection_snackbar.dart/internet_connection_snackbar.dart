@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:universal_internet_checker/universal_internet_checker.dart';
 
 enum SnackbarStyle { error, success }
 
@@ -18,7 +18,7 @@ class _InternetConnectionSnackbarState extends State<InternetConnectionSnackbar>
     with TickerProviderStateMixin {
   late bool isFirstShowing;
   late BehaviorSubject<SnackbarStyle> style;
-  late final InternetConnectionChecker internet;
+  // late final InternetConnectivity internet;
   late final StreamSubscription connectionSubscription;
   late final AnimationController animationController;
   late final Animation<double> animation;
@@ -27,13 +27,13 @@ class _InternetConnectionSnackbarState extends State<InternetConnectionSnackbar>
   void initState() {
     isFirstShowing = true;
     style = BehaviorSubject();
-    internet = InternetConnectionChecker();
-    connectionSubscription = internet.onStatusChange.listen((status) async {
+    connectionSubscription =
+        UniversalInternetChecker().onConnectionChange.listen((status) async {
       if (!isFirstShowing ||
-          (isFirstShowing && status == InternetConnectionStatus.disconnected)) {
+          (isFirstShowing && status == ConnectionStatus.offline)) {
         await animationController.reverse();
         style.add(
-          status == InternetConnectionStatus.connected
+          status == ConnectionStatus.online
               ? SnackbarStyle.success
               : SnackbarStyle.error,
         );
@@ -121,8 +121,9 @@ class _InternetConnectionSnackbarState extends State<InternetConnectionSnackbar>
   }
 
   void _animationListener() async {
-    final connection = await internet.hasConnection;
-    if (connection && animationController.status == AnimationStatus.completed) {
+    final connection = await UniversalInternetChecker.checkInternet();
+    if (connection == ConnectionStatus.online &&
+        animationController.status == AnimationStatus.completed) {
       await Future.delayed(const Duration(milliseconds: 2500));
       animationController.reverse();
     } else if (animationController.status == AnimationStatus.completed) {

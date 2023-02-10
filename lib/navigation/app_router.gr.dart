@@ -25,6 +25,23 @@ class _$AppRouter extends RootStackRouter {
         child: HomeScreen(key: args.key),
       );
     },
+    CharacterDetailsPopup.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CharacterDetailsPopupArgs>(
+          orElse: () => CharacterDetailsPopupArgs(id: pathParams.getInt('id')));
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: CharacterDetailsPopupView(
+          key: args.key,
+          context: args.context,
+          id: args.id,
+          card: args.card,
+        ),
+        customRouteBuilder: CustomRouteBuilders.popupBuilder,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     CharactersTab.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -49,23 +66,6 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: CharactersScreen(key: args.key),
-      );
-    },
-    CharacterDetailsPopup.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<CharacterDetailsPopupArgs>(
-          orElse: () => CharacterDetailsPopupArgs(id: pathParams.getInt('id')));
-      return CustomPage<dynamic>(
-        routeData: routeData,
-        child: CharacterDetailsPopupView(
-          key: args.key,
-          context: args.context,
-          id: args.id,
-          card: args.card,
-        ),
-        customRouteBuilder: CustomRouteBuilders.popupBuilder,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     SeasonsRoute.name: (routeData) {
@@ -120,12 +120,7 @@ class _$AppRouter extends RootStackRouter {
                   CharactersRoute.name,
                   path: '',
                   parent: CharactersTab.name,
-                ),
-                RouteConfig(
-                  CharacterDetailsPopup.name,
-                  path: ':id',
-                  parent: CharactersTab.name,
-                ),
+                )
               ],
             ),
             RouteConfig(
@@ -144,12 +139,7 @@ class _$AppRouter extends RootStackRouter {
                       parent: SeasonsRoute.name,
                     )
                   ],
-                ),
-                RouteConfig(
-                  CharacterDetailsPopup.name,
-                  path: ':id',
-                  parent: SeasonsTab.name,
-                ),
+                )
               ],
             ),
             RouteConfig(
@@ -165,6 +155,10 @@ class _$AppRouter extends RootStackRouter {
               ],
             ),
           ],
+        ),
+        RouteConfig(
+          CharacterDetailsPopup.name,
+          path: '/home/characters/:id',
         ),
         RouteConfig(
           '#redirect',
@@ -199,6 +193,51 @@ class HomeRouteArgs {
   @override
   String toString() {
     return 'HomeRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [CharacterDetailsPopupView]
+class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
+  CharacterDetailsPopup({
+    Key? key,
+    BuildContext? context,
+    required int id,
+    CharacterCard? card,
+  }) : super(
+          CharacterDetailsPopup.name,
+          path: '/home/characters/:id',
+          args: CharacterDetailsPopupArgs(
+            key: key,
+            context: context,
+            id: id,
+            card: card,
+          ),
+          rawPathParams: {'id': id},
+        );
+
+  static const String name = 'CharacterDetailsPopup';
+}
+
+class CharacterDetailsPopupArgs {
+  const CharacterDetailsPopupArgs({
+    this.key,
+    this.context,
+    required this.id,
+    this.card,
+  });
+
+  final Key? key;
+
+  final BuildContext? context;
+
+  final int id;
+
+  final CharacterCard? card;
+
+  @override
+  String toString() {
+    return 'CharacterDetailsPopupArgs{key: $key, context: $context, id: $id, card: $card}';
   }
 }
 
@@ -262,51 +301,6 @@ class CharactersRouteArgs {
   @override
   String toString() {
     return 'CharactersRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [CharacterDetailsPopupView]
-class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
-  CharacterDetailsPopup({
-    Key? key,
-    BuildContext? context,
-    required int id,
-    CharacterCard? card,
-  }) : super(
-          CharacterDetailsPopup.name,
-          path: ':id',
-          args: CharacterDetailsPopupArgs(
-            key: key,
-            context: context,
-            id: id,
-            card: card,
-          ),
-          rawPathParams: {'id': id},
-        );
-
-  static const String name = 'CharacterDetailsPopup';
-}
-
-class CharacterDetailsPopupArgs {
-  const CharacterDetailsPopupArgs({
-    this.key,
-    this.context,
-    required this.id,
-    this.card,
-  });
-
-  final Key? key;
-
-  final BuildContext? context;
-
-  final int id;
-
-  final CharacterCard? card;
-
-  @override
-  String toString() {
-    return 'CharacterDetailsPopupArgs{key: $key, context: $context, id: $id, card: $card}';
   }
 }
 

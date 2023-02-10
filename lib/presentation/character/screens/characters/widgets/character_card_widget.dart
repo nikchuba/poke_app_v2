@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
-import 'package:rick_and_morty/domain/entities/enums/status.dart';
+import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
 import 'package:rick_and_morty/libraries/ui/variables.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
@@ -25,8 +25,8 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
       onPressed: () {
         context.pushRoute(CharacterDetailsPopup(
           id: widget.card.id,
-          card: widget.card,
           context: context,
+          card: widget.card,
         ));
       },
       child: Container(
@@ -44,12 +44,9 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
+            FadeNetworkImage(
               image: widget.card.image,
-              fit: BoxFit.cover,
-              imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
-              placeholderErrorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
+              errorImageSize: 40,
             ),
             Positioned(
               bottom: -1,
@@ -124,16 +121,5 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
         ),
       ),
     );
-  }
-
-  Color getStatusColor(Status status) {
-    switch (status) {
-      case Status.alive:
-        return Colors.green;
-      case Status.dead:
-        return Colors.red;
-      case Status.unknown:
-        return Colors.grey;
-    }
   }
 }

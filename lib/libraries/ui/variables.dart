@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty/domain/entities/enums/status.dart';
 
 const kContentPadding = EdgeInsets.only(
   left: 16,
@@ -7,6 +8,17 @@ const kContentPadding = EdgeInsets.only(
   top: 16,
   bottom: 80 + 32,
 );
+
+Color getStatusColor(Status status) {
+  switch (status) {
+    case Status.alive:
+      return Colors.green;
+    case Status.dead:
+      return Colors.red;
+    case Status.unknown:
+      return Colors.grey;
+  }
+}
 
 final kTransparentImage = Uint8List.fromList(<int>[
   0x89,

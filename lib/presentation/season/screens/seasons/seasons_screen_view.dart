@@ -52,6 +52,7 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
   Widget build(BuildContext context) {
     return AutoTabsRouter.tabBar(
       routes: routes,
+      physics: const NeverScrollableScrollPhysics(),
       builder: (context, child, animation) {
         final tabsRouter = AutoTabsRouter.of(context);
         presenter.season = tabsRouter.activeIndex;

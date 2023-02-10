@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
-import 'package:rick_and_morty/libraries/ui/variables.dart';
+import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
 class CharacterCardWidget extends StatelessWidget {
@@ -27,11 +27,7 @@ class CharacterCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
         ),
-        child: FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: card.image,
-          fit: BoxFit.cover,
-        ),
+        child: FadeNetworkImage(image: card.image),
       ),
     );
   }

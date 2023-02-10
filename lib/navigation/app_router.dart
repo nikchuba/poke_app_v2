@@ -33,12 +33,6 @@ part 'app_router.gr.dart';
               path: '',
               page: CharactersScreen,
             ),
-            CustomRoute(
-              path: ':id',
-              page: CharacterDetailsPopupView,
-              name: 'CharacterDetailsPopup',
-              customRouteBuilder: CustomRouteBuilders.popupBuilder,
-            ),
           ],
         ),
         AutoRoute(
@@ -57,12 +51,6 @@ part 'app_router.gr.dart';
                 ),
               ],
             ),
-            CustomRoute(
-              path: ':id',
-              page: CharacterDetailsPopupView,
-              name: 'CharacterDetailsPopup',
-              customRouteBuilder: CustomRouteBuilders.popupBuilder,
-            ),
           ],
         ),
         AutoRoute(
@@ -74,6 +62,12 @@ part 'app_router.gr.dart';
           ],
         ),
       ],
+    ),
+    CustomRoute(
+      path: '/home/characters/:id',
+      page: CharacterDetailsPopupView,
+      name: 'CharacterDetailsPopup',
+      customRouteBuilder: CustomRouteBuilders.popupBuilder,
     ),
     RedirectRoute(path: '', redirectTo: 'home'),
   ],
@@ -124,7 +118,7 @@ class CustomRouteBuilders {
     final clientHeight = clientSize.height, clientWidth = clientSize.width;
     final maxCenter = Offset(clientWidth / 2, clientHeight / 2);
     final maxSize = clientWidth >= clientHeight
-        ? Size(clientHeight * 0.7 / _popupRatio, clientHeight * 0.7)
+        ? Size(clientHeight * 0.75 / _popupRatio, clientHeight * 0.75)
         : clientWidth > 420
             ? Size(clientWidth * 0.75, clientWidth * 0.75 * _popupRatio)
             : Size(clientWidth * 0.9, clientWidth * 0.9 * _popupRatio);

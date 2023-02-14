@@ -29,6 +29,7 @@ mixin _$CharacterDto {
   GenderDto get gender => throw _privateConstructorUsedError;
   OriginDto get origin => throw _privateConstructorUsedError;
   CharacterLocationDto get location => throw _privateConstructorUsedError;
+  @JsonKey(name: 'episode')
   List<String> get episodes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +54,7 @@ abstract class $CharacterDtoCopyWith<$Res> {
       GenderDto gender,
       OriginDto origin,
       CharacterLocationDto location,
-      List<String> episodes});
+      @JsonKey(name: 'episode') List<String> episodes});
 
   $OriginDtoCopyWith<$Res> get origin;
   $CharacterLocationDtoCopyWith<$Res> get location;
@@ -162,7 +163,7 @@ abstract class _$$_CharacterDtoCopyWith<$Res>
       GenderDto gender,
       OriginDto origin,
       CharacterLocationDto location,
-      List<String> episodes});
+      @JsonKey(name: 'episode') List<String> episodes});
 
   @override
   $OriginDtoCopyWith<$Res> get origin;
@@ -250,7 +251,7 @@ class _$_CharacterDto implements _CharacterDto {
       required this.gender,
       required this.origin,
       required this.location,
-      required final List<String> episodes})
+      @JsonKey(name: 'episode') required final List<String> episodes})
       : _episodes = episodes;
 
   factory _$_CharacterDto.fromJson(Map<String, dynamic> json) =>
@@ -276,6 +277,7 @@ class _$_CharacterDto implements _CharacterDto {
   final CharacterLocationDto location;
   final List<String> _episodes;
   @override
+  @JsonKey(name: 'episode')
   List<String> get episodes {
     if (_episodes is EqualUnmodifiableListView) return _episodes;
     // ignore: implicit_dynamic_type
@@ -336,16 +338,17 @@ class _$_CharacterDto implements _CharacterDto {
 
 abstract class _CharacterDto implements CharacterDto {
   const factory _CharacterDto(
-      {required final int id,
-      required final String name,
-      required final StatusDto status,
-      required final String image,
-      required final String species,
-      required final String type,
-      required final GenderDto gender,
-      required final OriginDto origin,
-      required final CharacterLocationDto location,
-      required final List<String> episodes}) = _$_CharacterDto;
+          {required final int id,
+          required final String name,
+          required final StatusDto status,
+          required final String image,
+          required final String species,
+          required final String type,
+          required final GenderDto gender,
+          required final OriginDto origin,
+          required final CharacterLocationDto location,
+          @JsonKey(name: 'episode') required final List<String> episodes}) =
+      _$_CharacterDto;
 
   factory _CharacterDto.fromJson(Map<String, dynamic> json) =
       _$_CharacterDto.fromJson;
@@ -369,6 +372,7 @@ abstract class _CharacterDto implements CharacterDto {
   @override
   CharacterLocationDto get location;
   @override
+  @JsonKey(name: 'episode')
   List<String> get episodes;
   @override
   @JsonKey(ignore: true)

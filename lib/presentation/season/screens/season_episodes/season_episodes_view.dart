@@ -117,36 +117,36 @@ class _SeasonEpisodesViewState extends State<SeasonEpisodesView> {
                                   ?.copyWith(color: colorScheme.surfaceTint),
                             ),
                             const SizedBox(height: 16),
-                            Container(
-                              height: 80,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                color:
-                                    colorScheme.surfaceVariant.withOpacity(.4),
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: colorScheme.surfaceTint
-                                        .withOpacity(.25),
-                                    blurRadius: 12,
-                                  ),
-                                ],
-                              ),
-                              child: ListView.separated(
-                                padding: const EdgeInsets.all(8),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  final characterCard =
-                                      episode.characters[index];
-                                  return CharacterCardWidget(
-                                    card: characterCard,
-                                  );
-                                },
-                                separatorBuilder: (context, _) =>
-                                    const SizedBox(width: 8),
-                                itemCount: episode.characters.length,
-                              ),
-                            ),
+                            // Container(
+                            //   height: 80,
+                            //   clipBehavior: Clip.hardEdge,
+                            //   decoration: BoxDecoration(
+                            //     color:
+                            //         colorScheme.surfaceVariant.withOpacity(.4),
+                            //     borderRadius: BorderRadius.circular(16),
+                            //     boxShadow: [
+                            //       BoxShadow(
+                            //         color: colorScheme.surfaceTint
+                            //             .withOpacity(.25),
+                            //         blurRadius: 12,
+                            //       ),
+                            //     ],
+                            //   ),
+                            //   child: ListView.separated(
+                            //     padding: const EdgeInsets.all(8),
+                            //     scrollDirection: Axis.horizontal,
+                            //     itemBuilder: (context, index) {
+                            //       final characterCard =
+                            //           episode.characters[index];
+                            //       return CharacterCardWidget(
+                            //         card: characterCard,
+                            //       );
+                            //     },
+                            //     separatorBuilder: (context, _) =>
+                            //         const SizedBox(width: 8),
+                            //     itemCount: episode.characters.length,
+                            //   ),
+                            // ),
                           ],
                         ),
                       );

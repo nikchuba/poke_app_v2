@@ -42,7 +42,7 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
                 padding: kContentPadding,
                 sliver: StreamBuilder(
                   initialData: const <CharacterCard>[],
-                  stream: presenter.characterCardsController,
+                  stream: presenter.characterCards,
                   builder: (context, snapshot) {
                     final cards = snapshot.data!;
                     return SliverGrid.builder(
@@ -54,7 +54,7 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
                         mainAxisExtent: 210,
                       ),
                       itemBuilder: (context, index) {
-                        final card = cards[index];
+                        final card = cards.elementAt(index);
                         return CharacterCardWidget(
                           key: ValueKey(card.id),
                           card: card,
@@ -68,7 +68,7 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
             ],
           ),
           LoadingIndicator(
-            isLoading: presenter.loadingController,
+            isLoading: locator.get<CharacterManager>().isLoading,
           ),
         ],
       ),

@@ -1,5 +1,3 @@
-import 'character_card.dart';
-
 class Episode {
   const Episode({
     required this.id,
@@ -13,5 +11,5 @@ class Episode {
   final String name;
   final String airDate;
   final String code;
-  final List<CharacterCard> characters;
+  final List<Uri> characters;
 }

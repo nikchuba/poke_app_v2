@@ -44,6 +44,7 @@ part 'app_router.gr.dart';
               path: '',
               page: SeasonsScreen,
               children: [
+                RedirectRoute(path: '', redirectTo: '1'),
                 AutoRoute(
                   path: ':id',
                   page: SeasonEpisodesView,

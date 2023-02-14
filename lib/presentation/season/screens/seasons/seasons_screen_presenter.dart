@@ -9,7 +9,6 @@ class SeasonsScreenPresenter implements IPresenter {
 
   late int season;
   late List<BehaviorSubject<List<Episode>>> seasonsController;
-  late BehaviorSubject<Pagination<Episode>> paginationController;
   late BehaviorSubject<IError?> errorController;
   late BehaviorSubject<bool> loadingController;
 
@@ -20,13 +19,8 @@ class SeasonsScreenPresenter implements IPresenter {
   @override
   void init() {
     seasonsController = List.generate(5, (index) => BehaviorSubject());
-    paginationController = BehaviorSubject();
     errorController = BehaviorSubject();
     loadingController = BehaviorSubject();
-
-    paginationSubscription = paginationController.listen((value) {
-      seasonsController[season].add(value.results);
-    });
 
     errorSubscription = errorController.listen((value) async {
       if (value is NetworkError) {
@@ -49,7 +43,7 @@ class SeasonsScreenPresenter implements IPresenter {
     final either = await _repository.getEpisodesBySeason(season);
     if (either.isRight()) {
       final right = either.asRight();
-      paginationController.add(right);
+      seasonsController[season - 1].add([...right.results]);
     } else {
       final left = either.asLeft();
       errorController.add(left);
@@ -62,7 +56,6 @@ class SeasonsScreenPresenter implements IPresenter {
     for (var element in seasonsController) {
       element.close();
     }
-    paginationController.close();
     errorController.close();
     loadingController.close();
 

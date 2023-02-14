@@ -10,6 +10,8 @@ abstract class ICharacterRepository {
 
   Future<ErrorOr<Character>> getCharacterById(int id);
 
+  Future<ErrorOr<List<CharacterCard>>> getCharacterCardsByIds(List<int> ids);
+
   Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByName(String name);
 
   Future<ErrorOr<Pagination<CharacterCard>>> getCharactersByFilter(

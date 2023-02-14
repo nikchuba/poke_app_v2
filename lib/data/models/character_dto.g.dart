@@ -19,7 +19,7 @@ _$_CharacterDto _$$_CharacterDtoFromJson(Map<String, dynamic> json) =>
       location: CharacterLocationDto.fromJson(
           json['location'] as Map<String, dynamic>),
       episodes:
-          (json['episodes'] as List<dynamic>).map((e) => e as String).toList(),
+          (json['episode'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_CharacterDtoToJson(_$_CharacterDto instance) =>
@@ -33,7 +33,7 @@ Map<String, dynamic> _$$_CharacterDtoToJson(_$_CharacterDto instance) =>
       'gender': _$GenderDtoEnumMap[instance.gender]!,
       'origin': instance.origin,
       'location': instance.location,
-      'episodes': instance.episodes,
+      'episode': instance.episodes,
     };
 
 const _$StatusDtoEnumMap = {

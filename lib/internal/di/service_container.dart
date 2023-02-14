@@ -7,7 +7,8 @@ import 'package:rick_and_morty/data/data_sources/remote/rest_api/location_servic
 void init(GetIt locator) {
   final dio = locator.get<Dio>();
 
-  locator.registerSingleton<CharacterService>(CharacterService(dio));
-  locator.registerSingleton<EpisodeService>(EpisodeService(dio));
-  locator.registerSingleton<LocationService>(LocationService(dio));
+  locator
+    ..registerSingleton<CharacterService>(CharacterService(dio))
+    ..registerSingleton<EpisodeService>(EpisodeService(dio))
+    ..registerSingleton<LocationService>(LocationService(dio));
 }

@@ -22,7 +22,7 @@ abstract class CharacterDto with _$CharacterDto {
     required GenderDto gender,
     required OriginDto origin,
     required CharacterLocationDto location,
-    required List<String> episodes,
+    @JsonKey(name: 'episode') required List<String> episodes,
   }) = _CharacterDto;
 
   factory CharacterDto.fromJson(Map<String, Object?> json) =>

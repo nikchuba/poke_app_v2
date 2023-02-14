@@ -40,6 +40,17 @@ CharacterCard mapCharacterCard(CharacterCardDto dto) {
   );
 }
 
+List<CharacterCard> mapCharacterCards(List<CharacterCardDto> dto) {
+  return dto
+      .map((e) => CharacterCard(
+            id: e.id,
+            name: e.name,
+            status: mapStatus(e.status),
+            image: e.image,
+          ))
+      .toList();
+}
+
 List<int> mapCharacterIds(List<Uri> characters) {
   return characters
       .map((character) => int.parse(character.pathSegments.last))

@@ -3,19 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:rick_and_morty/core/error/error.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
-import 'package:rick_and_morty/domain/entities/pagination.dart';
-import 'package:rick_and_morty/domain/repositories/character_repository.dart';
 import 'package:rick_and_morty/internal/di/locator.dart';
-import 'package:rick_and_morty/libraries/extensions/either.dart';
 import 'package:rick_and_morty/libraries/ui/blurred_sliver_app_bar.dart';
 import 'package:rick_and_morty/libraries/ui/layout/page.dart';
 import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/libraries/ui/variables.dart';
 import 'package:rick_and_morty/libraries/ui/widgets/loading_indicator.dart';
+import 'package:rick_and_morty/managers/character_manager.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:universal_internet_checker/universal_internet_checker.dart';
 
 import 'widgets/character_card_widget.dart';
 
@@ -27,7 +23,7 @@ class CharactersScreen
   CharactersScreen({super.key})
       : super(
           presenter: CharactersScreenPresenter(
-            repository: locator.get(),
+            characterManager: locator.get(),
           )..init(),
           view: const CharactersScreenView(),
         );

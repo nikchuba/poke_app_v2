@@ -2,73 +2,31 @@ part of 'characters_screen.dart';
 
 class CharactersScreenPresenter implements IPresenter {
   CharactersScreenPresenter({
-    required ICharacterRepository repository,
-  }) : _repository = repository;
+    required CharacterManager characterManager,
+  }) : _characterManager = characterManager;
 
-  final ICharacterRepository _repository;
+  final CharacterManager _characterManager;
 
-  late BehaviorSubject<List<CharacterCard>> characterCardsController;
-  late BehaviorSubject<Pagination<CharacterCard>> paginationController;
-  late BehaviorSubject<IError?> errorController;
-  late BehaviorSubject<bool> loadingController;
-
-  late StreamSubscription paginationSubscription;
-  late StreamSubscription errorSubscription;
-  late StreamSubscription? connectionSubscription;
+  late BehaviorSubject<Set<CharacterCard>> characterCards;
+  late StreamSubscription _cardsSubscription;
 
   @override
   void init() {
-    characterCardsController = BehaviorSubject();
-    paginationController = BehaviorSubject();
-    errorController = BehaviorSubject();
-    loadingController = BehaviorSubject();
-
-    paginationSubscription = paginationController.listen((value) {
-      final characterCards = characterCardsController.valueOrNull ?? [];
-      characterCardsController.add([...characterCards, ...value.results]);
-    });
-
-    errorSubscription = errorController.listen((value) async {
-      if (value is NetworkError) {
-        connectionSubscription =
-            UniversalInternetChecker().onConnectionChange.listen((status) {
-          if (status == ConnectionStatus.online) {
-            errorController.add(null);
-            getCharacters();
-            connectionSubscription!.cancel();
-            connectionSubscription = null;
-          }
-        });
-      }
-    });
+    characterCards = BehaviorSubject.seeded(
+      _characterManager.characterCards.valueOrNull ?? {},
+    );
+    _cardsSubscription = _characterManager.characterCards.listen(
+      characterCards.add,
+    );
   }
 
   void getCharacters() async {
-    if (loadingController.valueOrNull == true) return;
-    loadingController.add(true);
-    final either = await _repository.getCharacters(
-      page: paginationController.valueOrNull?.info.nextPage,
-    );
-    if (either.isRight()) {
-      final right = either.asRight();
-      paginationController.add(right);
-    } else {
-      final left = either.asLeft();
-      errorController.add(left);
-    }
-    loadingController.add(false);
+    _characterManager.updateCharacterCards();
   }
 
   @override
   void dispose() {
-    characterCardsController.close();
-    paginationController.close();
-    errorController.close();
-    loadingController.close();
-
-    paginationSubscription.cancel();
-    connectionSubscription?.cancel();
-    errorSubscription.cancel();
-    connectionSubscription = null;
+    characterCards.close();
+    _cardsSubscription.cancel();
   }
 }

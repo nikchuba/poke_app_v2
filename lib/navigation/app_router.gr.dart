@@ -134,10 +134,17 @@ class _$AppRouter extends RootStackRouter {
                   parent: SeasonsTab.name,
                   children: [
                     RouteConfig(
+                      '#redirect',
+                      path: '',
+                      parent: SeasonsRoute.name,
+                      redirectTo: '1',
+                      fullMatch: true,
+                    ),
+                    RouteConfig(
                       SeasonEpisodesTabView.name,
                       path: ':id',
                       parent: SeasonsRoute.name,
-                    )
+                    ),
                   ],
                 )
               ],

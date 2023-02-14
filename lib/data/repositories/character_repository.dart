@@ -30,6 +30,14 @@ class CharacterRepository
   }
 
   @override
+  Future<ErrorOr<List<CharacterCard>>> getCharacterCardsByIds(List<int> ids) {
+    return requestParser(
+      request: () => _service.getCharactersByIds(ids),
+      parser: mapCharacterCards,
+    );
+  }
+
+  @override
   Future<ErrorOr<Pagination<CharacterCard>>> getCharacters({
     int? page,
   }) {

@@ -7,16 +7,14 @@ import 'package:rick_and_morty/domain/repositories/episode_repository.dart';
 import 'package:rick_and_morty/domain/repositories/location_repository.dart';
 
 void init(GetIt locator) {
-  locator.registerSingleton<ICharacterRepository>(
-    CharacterRepository(service: locator.get()),
-  );
-  locator.registerSingleton<IEpisodeRepository>(
-    EpisodeRepository(
-      episodeService: locator.get(),
-      characterService: locator.get(),
-    ),
-  );
-  locator.registerSingleton<ILocationRepository>(
-    LocationRepository(service: locator.get()),
-  );
+  locator
+    ..registerSingleton<ICharacterRepository>(CharacterRepository(
+      service: locator.get(),
+    ))
+    ..registerSingleton<IEpisodeRepository>(EpisodeRepository(
+      service: locator.get(),
+    ))
+    ..registerSingleton<ILocationRepository>(LocationRepository(
+      service: locator.get(),
+    ));
 }

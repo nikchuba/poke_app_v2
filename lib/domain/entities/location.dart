@@ -7,7 +7,7 @@ abstract class ILocation {
   });
 
   final String name;
-  final String url;
+  final Uri url;
 }
 
 class Location extends ILocation {
@@ -23,5 +23,5 @@ class Location extends ILocation {
   final int id;
   final String type;
   final String dimension;
-  final List<CharacterCard> residents;
+  final List<Uri> residents;
 }

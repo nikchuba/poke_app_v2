@@ -24,8 +24,8 @@ mixin _$LocationDto {
   String get name => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get dimension => throw _privateConstructorUsedError;
-  List<String> get residents => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  List<Uri> get residents => throw _privateConstructorUsedError;
+  Uri get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +44,8 @@ abstract class $LocationDtoCopyWith<$Res> {
       String name,
       String type,
       String dimension,
-      List<String> residents,
-      String url});
+      List<Uri> residents,
+      Uri url});
 }
 
 /// @nodoc
@@ -88,11 +88,11 @@ class _$LocationDtoCopyWithImpl<$Res, $Val extends LocationDto>
       residents: null == residents
           ? _value.residents
           : residents // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Uri>,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ) as $Val);
   }
 }
@@ -110,8 +110,8 @@ abstract class _$$_LocationDtoCopyWith<$Res>
       String name,
       String type,
       String dimension,
-      List<String> residents,
-      String url});
+      List<Uri> residents,
+      Uri url});
 }
 
 /// @nodoc
@@ -152,11 +152,11 @@ class __$$_LocationDtoCopyWithImpl<$Res>
       residents: null == residents
           ? _value._residents
           : residents // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Uri>,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ));
   }
 }
@@ -169,7 +169,7 @@ class _$_LocationDto implements _LocationDto {
       required this.name,
       required this.type,
       required this.dimension,
-      required final List<String> residents,
+      required final List<Uri> residents,
       required this.url})
       : _residents = residents;
 
@@ -184,16 +184,16 @@ class _$_LocationDto implements _LocationDto {
   final String type;
   @override
   final String dimension;
-  final List<String> _residents;
+  final List<Uri> _residents;
   @override
-  List<String> get residents {
+  List<Uri> get residents {
     if (_residents is EqualUnmodifiableListView) return _residents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_residents);
   }
 
   @override
-  final String url;
+  final Uri url;
 
   @override
   String toString() {
@@ -240,8 +240,8 @@ abstract class _LocationDto implements LocationDto {
       required final String name,
       required final String type,
       required final String dimension,
-      required final List<String> residents,
-      required final String url}) = _$_LocationDto;
+      required final List<Uri> residents,
+      required final Uri url}) = _$_LocationDto;
 
   factory _LocationDto.fromJson(Map<String, dynamic> json) =
       _$_LocationDto.fromJson;
@@ -255,9 +255,9 @@ abstract class _LocationDto implements LocationDto {
   @override
   String get dimension;
   @override
-  List<String> get residents;
+  List<Uri> get residents;
   @override
-  String get url;
+  Uri get url;
   @override
   @JsonKey(ignore: true)
   _$$_LocationDtoCopyWith<_$_LocationDto> get copyWith =>

@@ -7,7 +7,7 @@ part 'origin_dto.g.dart';
 abstract class OriginDto with _$OriginDto {
   const factory OriginDto({
     required String name,
-    required String url,
+    required Uri url,
   }) = _OriginDto;
 
   factory OriginDto.fromJson(Map<String, Object?> json) =>

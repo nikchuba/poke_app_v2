@@ -22,8 +22,8 @@ ResponseInfoDto _$ResponseInfoDtoFromJson(Map<String, dynamic> json) {
 mixin _$ResponseInfoDto {
   int get count => throw _privateConstructorUsedError;
   int get pages => throw _privateConstructorUsedError;
-  String? get next => throw _privateConstructorUsedError;
-  String? get prev => throw _privateConstructorUsedError;
+  Uri? get next => throw _privateConstructorUsedError;
+  Uri? get prev => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $ResponseInfoDtoCopyWith<$Res> {
           ResponseInfoDto value, $Res Function(ResponseInfoDto) then) =
       _$ResponseInfoDtoCopyWithImpl<$Res, ResponseInfoDto>;
   @useResult
-  $Res call({int count, int pages, String? next, String? prev});
+  $Res call({int count, int pages, Uri? next, Uri? prev});
 }
 
 /// @nodoc
@@ -70,11 +70,11 @@ class _$ResponseInfoDtoCopyWithImpl<$Res, $Val extends ResponseInfoDto>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uri?,
       prev: freezed == prev
           ? _value.prev
           : prev // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uri?,
     ) as $Val);
   }
 }
@@ -87,7 +87,7 @@ abstract class _$$_ResponseInfoDtoCopyWith<$Res>
       __$$_ResponseInfoDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int count, int pages, String? next, String? prev});
+  $Res call({int count, int pages, Uri? next, Uri? prev});
 }
 
 /// @nodoc
@@ -118,11 +118,11 @@ class __$$_ResponseInfoDtoCopyWithImpl<$Res>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uri?,
       prev: freezed == prev
           ? _value.prev
           : prev // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Uri?,
     ));
   }
 }
@@ -141,9 +141,9 @@ class _$_ResponseInfoDto implements _ResponseInfoDto {
   @override
   final int pages;
   @override
-  final String? next;
+  final Uri? next;
   @override
-  final String? prev;
+  final Uri? prev;
 
   @override
   String toString() {
@@ -183,8 +183,8 @@ abstract class _ResponseInfoDto implements ResponseInfoDto {
   const factory _ResponseInfoDto(
       {required final int count,
       required final int pages,
-      final String? next,
-      final String? prev}) = _$_ResponseInfoDto;
+      final Uri? next,
+      final Uri? prev}) = _$_ResponseInfoDto;
 
   factory _ResponseInfoDto.fromJson(Map<String, dynamic> json) =
       _$_ResponseInfoDto.fromJson;
@@ -194,9 +194,9 @@ abstract class _ResponseInfoDto implements ResponseInfoDto {
   @override
   int get pages;
   @override
-  String? get next;
+  Uri? get next;
   @override
-  String? get prev;
+  Uri? get prev;
   @override
   @JsonKey(ignore: true)
   _$$_ResponseInfoDtoCopyWith<_$_ResponseInfoDto> get copyWith =>

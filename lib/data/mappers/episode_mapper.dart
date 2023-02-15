@@ -18,6 +18,6 @@ Episode mapEpisode(EpisodeDto episodeDto) {
 Pagination<Episode> mapEpisodeResponse(EpisodeResponseDto dto) {
   return Pagination(
     info: mapResponseInfo(dto.info),
-    results: dto.results.map((dto) => mapEpisode(dto)).toList(),
+    results: dto.results.map(mapEpisode).toList(),
   );
 }

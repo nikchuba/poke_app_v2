@@ -1,15 +1,16 @@
-import 'package:rick_and_morty/data/mappers/character_mapper.dart';
-import 'package:rick_and_morty/data/models/character_card_dto.dart';
 import 'package:rick_and_morty/data/models/character_location_dto.dart';
 import 'package:rick_and_morty/data/models/location_dto.dart';
+import 'package:rick_and_morty/data/models/location_response_dto.dart';
 import 'package:rick_and_morty/data/models/origin_dto.dart';
 import 'package:rick_and_morty/domain/entities/character_location.dart';
 import 'package:rick_and_morty/domain/entities/location.dart';
 import 'package:rick_and_morty/domain/entities/origin.dart';
+import 'package:rick_and_morty/domain/entities/pagination.dart';
+
+import 'response_info_mapper.dart';
 
 Location mapLocation(
   LocationDto locationDto,
-  List<CharacterCardDto> characterCardDto,
 ) {
   return Location(
     id: locationDto.id,
@@ -17,7 +18,14 @@ Location mapLocation(
     url: locationDto.url,
     type: locationDto.type,
     dimension: locationDto.dimension,
-    residents: characterCardDto.map((dto) => mapCharacterCard(dto)).toList(),
+    residents: locationDto.residents,
+  );
+}
+
+Pagination<Location> mapLocationResponse(LocationResponseDto dto) {
+  return Pagination(
+    info: mapResponseInfo(dto.info),
+    results: dto.results.map(mapLocation).toList(),
   );
 }
 

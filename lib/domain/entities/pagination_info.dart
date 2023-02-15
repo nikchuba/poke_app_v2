@@ -8,18 +8,14 @@ class PaginationInfo {
 
   final int count;
   final int pages;
-  final String? next;
-  final String? prev;
+  final Uri? next;
+  final Uri? prev;
 
   int? get nextPage => _getPageNumberFromUrl(next);
   int? get prevPage => _getPageNumberFromUrl(prev);
 
-  int? _getPageNumberFromUrl(String? url) {
-    if (url == null) return null;
-    final uri = _getUri(url);
-    final page = uri.queryParameters['page']!;
-    return int.parse(page);
+  int? _getPageNumberFromUrl(Uri? uri) {
+    final page = uri?.queryParameters['page']!;
+    return page != null ? int.parse(page) : null;
   }
-
-  Uri _getUri(String url) => Uri.parse(url);
 }

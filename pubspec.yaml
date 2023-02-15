@@ -20,6 +20,7 @@ dependencies:
   custom_sliding_segmented_control: ^1.7.4
   sliver_tools: ^0.2.9
   extended_nested_scroll_view: ^6.0.0
+  fade_shimmer: ^2.2.0
 
   # api
   dartz: ^0.10.1

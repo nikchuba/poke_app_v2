@@ -8,8 +8,8 @@ abstract class ResponseInfoDto with _$ResponseInfoDto {
   const factory ResponseInfoDto({
     required int count,
     required int pages,
-    String? next,
-    String? prev,
+    Uri? next,
+    Uri? prev,
   }) = _ResponseInfoDto;
 
   factory ResponseInfoDto.fromJson(Map<String, Object?> json) =>

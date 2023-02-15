@@ -21,7 +21,7 @@ CharacterLocationDto _$CharacterLocationDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CharacterLocationDto {
   String get name => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  Uri get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $CharacterLocationDtoCopyWith<$Res> {
           $Res Function(CharacterLocationDto) then) =
       _$CharacterLocationDtoCopyWithImpl<$Res, CharacterLocationDto>;
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, Uri url});
 }
 
 /// @nodoc
@@ -63,7 +63,7 @@ class _$CharacterLocationDtoCopyWithImpl<$Res,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ) as $Val);
   }
 }
@@ -76,7 +76,7 @@ abstract class _$$_CharacterLocationDtoCopyWith<$Res>
       __$$_CharacterLocationDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, Uri url});
 }
 
 /// @nodoc
@@ -101,7 +101,7 @@ class __$$_CharacterLocationDtoCopyWithImpl<$Res>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ));
   }
 }
@@ -117,7 +117,7 @@ class _$_CharacterLocationDto implements _CharacterLocationDto {
   @override
   final String name;
   @override
-  final String url;
+  final Uri url;
 
   @override
   String toString() {
@@ -155,7 +155,7 @@ class _$_CharacterLocationDto implements _CharacterLocationDto {
 abstract class _CharacterLocationDto implements CharacterLocationDto {
   const factory _CharacterLocationDto(
       {required final String name,
-      required final String url}) = _$_CharacterLocationDto;
+      required final Uri url}) = _$_CharacterLocationDto;
 
   factory _CharacterLocationDto.fromJson(Map<String, dynamic> json) =
       _$_CharacterLocationDto.fromJson;
@@ -163,7 +163,7 @@ abstract class _CharacterLocationDto implements CharacterLocationDto {
   @override
   String get name;
   @override
-  String get url;
+  Uri get url;
   @override
   @JsonKey(ignore: true)
   _$$_CharacterLocationDtoCopyWith<_$_CharacterLocationDto> get copyWith =>

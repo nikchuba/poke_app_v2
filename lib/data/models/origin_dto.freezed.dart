@@ -21,7 +21,7 @@ OriginDto _$OriginDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$OriginDto {
   String get name => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  Uri get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $OriginDtoCopyWith<$Res> {
   factory $OriginDtoCopyWith(OriginDto value, $Res Function(OriginDto) then) =
       _$OriginDtoCopyWithImpl<$Res, OriginDto>;
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, Uri url});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$OriginDtoCopyWithImpl<$Res, $Val extends OriginDto>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ) as $Val);
   }
 }
@@ -73,7 +73,7 @@ abstract class _$$_OriginDtoCopyWith<$Res> implements $OriginDtoCopyWith<$Res> {
       __$$_OriginDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String url});
+  $Res call({String name, Uri url});
 }
 
 /// @nodoc
@@ -98,7 +98,7 @@ class __$$_OriginDtoCopyWithImpl<$Res>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Uri,
     ));
   }
 }
@@ -114,7 +114,7 @@ class _$_OriginDto implements _OriginDto {
   @override
   final String name;
   @override
-  final String url;
+  final Uri url;
 
   @override
   String toString() {
@@ -150,7 +150,7 @@ class _$_OriginDto implements _OriginDto {
 
 abstract class _OriginDto implements OriginDto {
   const factory _OriginDto(
-      {required final String name, required final String url}) = _$_OriginDto;
+      {required final String name, required final Uri url}) = _$_OriginDto;
 
   factory _OriginDto.fromJson(Map<String, dynamic> json) =
       _$_OriginDto.fromJson;
@@ -158,7 +158,7 @@ abstract class _OriginDto implements OriginDto {
   @override
   String get name;
   @override
-  String get url;
+  Uri get url;
   @override
   @JsonKey(ignore: true)
   _$$_OriginDtoCopyWith<_$_OriginDto> get copyWith =>

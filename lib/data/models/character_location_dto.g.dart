@@ -10,12 +10,12 @@ _$_CharacterLocationDto _$$_CharacterLocationDtoFromJson(
         Map<String, dynamic> json) =>
     _$_CharacterLocationDto(
       name: json['name'] as String,
-      url: json['url'] as String,
+      url: Uri.parse(json['url'] as String),
     );
 
 Map<String, dynamic> _$$_CharacterLocationDtoToJson(
         _$_CharacterLocationDto instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'url': instance.url,
+      'url': instance.url.toString(),
     };

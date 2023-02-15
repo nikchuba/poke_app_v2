@@ -12,8 +12,8 @@ abstract class LocationDto with _$LocationDto {
     required String name,
     required String type,
     required String dimension,
-    required List<String> residents,
-    required String url,
+    required List<Uri> residents,
+    required Uri url,
   }) = _LocationDto;
 
   factory LocationDto.fromJson(Map<String, Object?> json) =>

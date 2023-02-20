@@ -1,3 +1,5 @@
+import 'package:rick_and_morty/domain/entities/character_chip.dart';
+
 class Episode {
   const Episode({
     required this.id,
@@ -11,5 +13,5 @@ class Episode {
   final String name;
   final String airDate;
   final String code;
-  final List<Uri> characters;
+  final List<CharacterChip> characters;
 }

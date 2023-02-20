@@ -8,7 +8,7 @@ import 'package:talker_dio_logger/talker_dio_logger.dart';
 init(GetIt locator) {
   const baseUrl = ApiUrl.domain + ApiUrl.restApiPath;
   final dio = Dio();
-  dio.options = BaseOptions(baseUrl: baseUrl);
+  dio.options = BaseOptions(baseUrl: baseUrl, receiveDataWhenStatusError: true);
   if (!kIsWeb) {
     dio.interceptors.add(
       TalkerDioLogger(

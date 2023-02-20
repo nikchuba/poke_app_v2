@@ -23,8 +23,8 @@ class LoadingIndicator extends StatelessWidget {
           return Center(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeOutBack,
-              switchOutCurve: Curves.easeOutBack,
+              switchInCurve: Curves.ease,
+              switchOutCurve: Curves.ease,
               transitionBuilder: (child, animation) {
                 return AnimatedBuilder(
                     animation: animation,

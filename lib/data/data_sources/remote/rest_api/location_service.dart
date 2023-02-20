@@ -12,7 +12,7 @@ abstract class LocationService {
   factory LocationService(Dio dio, {String baseUrl}) = _LocationService;
 
   @GET(ApiUrl.location)
-  Future<LocationResponseDto> getLocations(@Query('page') int page);
+  Future<LocationResponseDto> getLocations(@Query('page') int? page);
 
   @GET('${ApiUrl.location}/{id}')
   Future<LocationDto> getLocationById(@Path() int id);

@@ -1,3 +1,4 @@
+import 'package:rick_and_morty/data/mappers/character_mapper.dart';
 import 'package:rick_and_morty/data/models/episode_dto.dart';
 import 'package:rick_and_morty/data/models/episode_response_dto.dart';
 import 'package:rick_and_morty/domain/entities/episode.dart';
@@ -11,7 +12,7 @@ Episode mapEpisode(EpisodeDto episodeDto) {
     name: episodeDto.name,
     airDate: episodeDto.airDate,
     code: episodeDto.episode,
-    characters: episodeDto.characters,
+    characters: mapCharacterChips(episodeDto.characters),
   );
 }
 

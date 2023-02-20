@@ -12,7 +12,6 @@ void init(GetIt locator) {
     )
     ..registerSingleton(
       EpisodeManager(
-        characterManager: locator.get(),
         repository: locator.get(),
       )..init(),
     )

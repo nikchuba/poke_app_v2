@@ -19,34 +19,33 @@ class CharacterManager {
   final ICharacterRepository _repository;
 
   final _characterCards = BehaviorSubject<Set<CharacterCard>>.seeded({});
-  final _cachedCharacters = <Character>{};
-  final _cachedCharacterCards = BehaviorSubject<Set<CharacterCard>>.seeded({});
-  final _character = BehaviorSubject<Character?>();
+  final _characters = <Character>{};
+  final _currentCharacter = BehaviorSubject<Character?>();
   final _pageInfo = BehaviorSubject<PaginationInfo>();
   final _isLoading = BehaviorSubject<bool>.seeded(false);
   final _error = BehaviorSubject<IError?>();
 
   BehaviorSubject<Set<CharacterCard>> get characterCards => _characterCards;
-  BehaviorSubject<Character?> get character => _character;
+  BehaviorSubject<Character?> get currentCharacter => _currentCharacter;
   BehaviorSubject<PaginationInfo> get pageInfo => _pageInfo;
   BehaviorSubject<bool> get isLoading => _isLoading;
 
   late final StreamSubscription _connectionSubcription;
 
   void updateCharacterCards() async {
-    if (_isLoading.value) return;
+    if (_isLoading.value ||
+        (_pageInfo.valueOrNull != null && _pageInfo.value.nextPage == null)) {
+      return;
+    }
     _isLoading.add(true);
     final either = await _repository.getCharacters(
-      page: _pageInfo.valueOrNull?.nextPage,
+      page: _pageInfo.valueOrNull?.nextPage ?? 1,
     );
     if (either.isRight()) {
       final right = either.asRight();
       _pageInfo.add(right.info);
       _characterCards.add(
         {..._characterCards.valueOrNull ?? {}, ...right.results},
-      );
-      _cachedCharacterCards.add(
-        {..._cachedCharacterCards.valueOrNull ?? {}, ...right.results},
       );
       _error.add(null);
     } else {
@@ -57,33 +56,20 @@ class CharacterManager {
   }
 
   void updateCharacter(int? id) {
-    if (id == null) return _character.add(null);
-    final character = _cachedCharacters.firstWhereOrNull((c) => c.id == id);
+    if (id == null) return _currentCharacter.add(null);
+    final character = _characters.firstWhereOrNull((c) => c.id == id);
     if (character == null) {
       return _getCharacterById(id);
     }
-    _character.add(character);
-  }
-
-  void updateCachedCharacterCards(List<int> ids) async {
-    final either = await _repository.getCharacterCardsByIds(ids);
-    if (either.isRight()) {
-      final right = either.asRight();
-      _cachedCharacterCards.add(
-        {..._cachedCharacterCards.valueOrNull ?? {}, ...right},
-      );
-    } else {
-      final left = either.asLeft();
-      _error.add(left);
-    }
+    _currentCharacter.add(character);
   }
 
   void _getCharacterById(int id) async {
     final either = await _repository.getCharacterById(id);
     if (either.isRight()) {
       final right = either.asRight();
-      _cachedCharacters.add(right);
-      _character.add(right);
+      _characters.add(right);
+      _currentCharacter.add(right);
     } else {
       final left = either.asLeft();
       _error.add(left);
@@ -93,7 +79,8 @@ class CharacterManager {
   void init() {
     _connectionSubcription =
         UniversalInternetChecker().onConnectionChange.listen((status) async {
-      if (_error.valueOrNull is NetworkError &&
+      if ((characterCards.value.isEmpty ||
+              _error.valueOrNull is NetworkError) &&
           status == ConnectionStatus.online) {
         updateCharacterCards();
       }

@@ -1,9 +1,8 @@
-import 'dart:ui';
-import 'package:collection/collection.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty/domain/entities/character.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'package:rick_and_morty/domain/entities/character_chip.dart';
 import 'package:rick_and_morty/internal/di/locator.dart';
 import 'package:rick_and_morty/libraries/ui/abstracts/popup.dart';
 import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
@@ -11,6 +10,7 @@ import 'package:rick_and_morty/libraries/ui/variables.dart';
 import 'package:rick_and_morty/managers/character_manager.dart';
 
 const _defaultPadding = 16.0;
+const _defaultAnimationDuration = Duration(milliseconds: 300);
 
 class CharacterDetailsPopupView extends PopupView {
   const CharacterDetailsPopupView({
@@ -18,10 +18,12 @@ class CharacterDetailsPopupView extends PopupView {
     super.context,
     @PathParam('id') required this.id,
     this.card,
+    this.chip,
   }) : super();
 
   final int id;
   final CharacterCard? card;
+  final CharacterChip? chip;
 
   @override
   State<CharacterDetailsPopupView> createState() =>
@@ -53,25 +55,20 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
         color: colorScheme.background.withOpacity(.5),
       ),
       child: StreamBuilder(
-        stream: manager.character,
+        stream: manager.currentCharacter,
         builder: (context, snapshot) {
           final character = snapshot.data;
 
           return Stack(
             fit: StackFit.expand,
             children: [
-              (widget.card != null || character?.image != null)
-                  ? FadeNetworkImage(
-                      image: character?.image ?? widget.card!.image,
-                      errorImageSize: 40,
-                    )
-                  : const Center(child: CircularProgressIndicator()),
+              _buildImage(character),
               Positioned(
                 bottom: _defaultPadding,
                 left: _defaultPadding,
                 right: _defaultPadding,
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration: _defaultAnimationDuration,
                   child: character != null
                       ? Container(
                           clipBehavior: Clip.hardEdge,
@@ -148,37 +145,56 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
                   ),
                 ),
               ),
-              if (widget.card?.status != null || character?.status != null)
-                Positioned(
-                  top: _defaultPadding,
-                  right: _defaultPadding,
-                  child: Container(
-                    clipBehavior: Clip.hardEdge,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: getStatusColor(
-                              character?.status ?? widget.card!.status)
-                          .withOpacity(.8),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          character?.status.name ?? widget.card!.status.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(color: colorScheme.onSurface),
-                        ),
-                      ],
-                    ),
-                  ),
+              Positioned(
+                top: _defaultPadding,
+                right: _defaultPadding,
+                child: AnimatedSwitcher(
+                  duration: _defaultAnimationDuration,
+                  child: _buildStatus(character),
                 ),
+              ),
             ],
           );
         },
       ),
     );
+  }
+
+  Widget _buildImage(Character? character) {
+    final image = character?.image ?? widget.card?.image ?? widget.chip?.image;
+    return image != null
+        ? FadeNetworkImage(
+            image: image,
+            errorImageSize: 40,
+          )
+        : const Center(child: CircularProgressIndicator());
+  }
+
+  Widget? _buildStatus(Character? character) {
+    final status = character?.status ?? widget.card?.status;
+    return status != null
+        ? Container(
+            clipBehavior: Clip.hardEdge,
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 8,
+            ),
+            decoration: BoxDecoration(
+              color: getStatusColor(status).withOpacity(.8),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Text(
+                  status.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: colorScheme.onSurface),
+                ),
+              ],
+            ),
+          )
+        : null;
   }
 }

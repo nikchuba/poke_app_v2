@@ -1,4 +1,18 @@
-part of 'characters_screen.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'package:rick_and_morty/internal/di/locator.dart';
+import 'package:rick_and_morty/libraries/ui/blurred_sliver_app_bar.dart';
+import 'package:rick_and_morty/libraries/ui/variables.dart';
+import 'package:rick_and_morty/libraries/ui/widgets/loading_indicator.dart';
+import 'package:rick_and_morty/managers/character_manager.dart';
+
+import 'characters_screen_presenter.dart';
+import 'widgets/character_card_widget.dart';
 
 class CharactersScreenView extends StatefulWidget {
   const CharactersScreenView({super.key});
@@ -10,15 +24,27 @@ class CharactersScreenView extends StatefulWidget {
 class _CharactersScreenViewState extends State<CharactersScreenView>
     with TickerProviderStateMixin {
   CharactersScreenPresenter get presenter => context.read();
+  MediaQueryData get mediaQuery => MediaQuery.of(context);
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   TextTheme get textTheme => Theme.of(context).textTheme;
   late final ScrollController controller;
+  late EdgeInsets padding;
 
   @override
   void initState() {
-    presenter.getCharacters();
     controller = ScrollController()..addListener(_lazyLoad);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final deviceWidth = mediaQuery.size.width;
+    final horizontalPadding = max((deviceWidth - kMaxContentWidth) / 2, 16.0);
+    padding = kContentPadding.copyWith(
+      left: horizontalPadding,
+      right: horizontalPadding,
+    );
+    super.didChangeDependencies();
   }
 
   @override
@@ -39,19 +65,24 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
             slivers: [
               const BlurredSliverAppBar(title: 'Characters'),
               SliverPadding(
-                padding: kContentPadding,
+                padding: padding,
                 sliver: StreamBuilder(
                   initialData: const <CharacterCard>[],
                   stream: presenter.characterCards,
                   builder: (context, snapshot) {
                     final cards = snapshot.data!;
                     return SliverGrid.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
-                        mainAxisExtent: 210,
+                      gridDelegate: SliverQuiltedGridDelegate(
+                        crossAxisCount: 20,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                        repeatPattern: QuiltedGridRepeatPattern.same,
+                        pattern: const [
+                          QuiltedGridTile(11, 10),
+                          QuiltedGridTile(9, 10),
+                          QuiltedGridTile(11, 10),
+                          QuiltedGridTile(9, 10),
+                        ],
                       ),
                       itemBuilder: (context, index) {
                         final card = cards.elementAt(index);
@@ -80,7 +111,7 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
     final pos = controller.position;
     final indicator = pos.maxScrollExtent - pos.pixels;
     if (indicator < 100 && scrollDirection == ScrollDirection.reverse) {
-      presenter.getCharacters();
+      presenter.loadCharacterCards();
     }
   }
 }

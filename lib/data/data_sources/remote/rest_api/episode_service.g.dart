@@ -22,6 +22,7 @@ class _EpisodeService implements EpisodeService {
   Future<EpisodeResponseDto> getEpisodes(page) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio

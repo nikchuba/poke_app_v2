@@ -1,3 +1,4 @@
+import 'package:rick_and_morty/data/mappers/character_mapper.dart';
 import 'package:rick_and_morty/data/models/character_location_dto.dart';
 import 'package:rick_and_morty/data/models/location_dto.dart';
 import 'package:rick_and_morty/data/models/location_response_dto.dart';
@@ -18,7 +19,7 @@ Location mapLocation(
     url: locationDto.url,
     type: locationDto.type,
     dimension: locationDto.dimension,
-    residents: locationDto.residents,
+    residents: mapCharacterChips(locationDto.residents),
   );
 }
 

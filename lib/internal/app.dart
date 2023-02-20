@@ -49,6 +49,8 @@ class _AppState extends State<App> {
         );
 
         return MaterialApp.router(
+          scrollBehavior:
+              ScrollConfiguration.of(context).copyWith(scrollbars: false),
           routerDelegate:
               router.delegate(navigatorObservers: () => [MyObserver()]),
           routeInformationParser: router.defaultRouteParser(),

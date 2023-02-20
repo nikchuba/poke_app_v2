@@ -9,6 +9,8 @@ const kContentPadding = EdgeInsets.only(
   bottom: 80 + 32,
 );
 
+const kMaxContentWidth = 800;
+
 Color getStatusColor(Status status) {
   switch (status) {
     case Status.alive:

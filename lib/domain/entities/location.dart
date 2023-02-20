@@ -1,4 +1,4 @@
-import 'character_card.dart';
+import 'character_chip.dart';
 
 abstract class ILocation {
   const ILocation({
@@ -23,5 +23,5 @@ class Location extends ILocation {
   final int id;
   final String type;
   final String dimension;
-  final List<Uri> residents;
+  final List<CharacterChip> residents;
 }

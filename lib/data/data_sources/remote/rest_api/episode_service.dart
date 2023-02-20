@@ -12,7 +12,7 @@ abstract class EpisodeService {
   factory EpisodeService(Dio dio, {String baseUrl}) = _EpisodeService;
 
   @GET(ApiUrl.episode)
-  Future<EpisodeResponseDto> getEpisodes(@Query('page') int page);
+  Future<EpisodeResponseDto> getEpisodes(@Query('page') int? page);
 
   @GET('${ApiUrl.episode}/{id}')
   Future<EpisodeDto> getEpisodeById(@Path() int id);

@@ -1,4 +1,16 @@
-part of 'seasons_screen.dart';
+// import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rick_and_morty/internal/di/locator.dart';
+import 'package:rick_and_morty/libraries/ui/blurred_sliver_app_bar.dart';
+import 'package:rick_and_morty/libraries/ui/widgets/loading_indicator.dart';
+import 'package:rick_and_morty/managers/episode_manager.dart';
+import 'package:rick_and_morty/navigation/app_router.dart';
+
+import 'seasons_screen_presenter.dart';
 
 class SeasonsScreenView extends StatefulWidget {
   const SeasonsScreenView({super.key});
@@ -19,18 +31,13 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
   late final ScrollController scrollController;
   Map<int, Widget>? segmentedControls;
 
-  final keys = List.generate(5, (index) => ValueKey('Tab-${index + 1}'));
-
   @override
   void initState() {
     presenter = context.read();
     scrollController = ScrollController();
     routes = List.generate(
       5,
-      (index) => SeasonEpisodesTabView(
-        key: keys.elementAt(index),
-        seasonId: index + 1,
-      ),
+      (index) => SeasonEpisodesTabView(seasonId: index + 1),
     );
 
     super.initState();
@@ -50,16 +57,15 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.tabBar(
-      routes: routes,
-      physics: const NeverScrollableScrollPhysics(),
-      builder: (context, child, animation) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        presenter.season = tabsRouter.activeIndex;
-        return Scaffold(
-          body: Stack(
-            children: [
-              ExtendedNestedScrollView(
+    return Stack(
+      children: [
+        AutoTabsRouter.tabBar(
+          routes: routes,
+          builder: (context, child, animation) {
+            final tabsRouter = AutoTabsRouter.of(context);
+            presenter.changeSeason(tabsRouter.activeIndex + 1);
+            return Scaffold(
+              body: ExtendedNestedScrollView(
                 onlyOneScrollInBody: true,
                 controller: scrollController,
                 headerSliverBuilder: (context, _) => [
@@ -84,13 +90,13 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
                 ],
                 body: child,
               ),
-              LoadingIndicator(
-                isLoading: presenter.loadingController,
-              )
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+        LoadingIndicator(
+          isLoading: presenter.loadingController,
+        )
+      ],
     );
   }
 

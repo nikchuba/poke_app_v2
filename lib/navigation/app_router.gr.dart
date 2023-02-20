@@ -36,6 +36,7 @@ class _$AppRouter extends RootStackRouter {
           context: args.context,
           id: args.id,
           card: args.card,
+          chip: args.chip,
         ),
         customRouteBuilder: CustomRouteBuilders.popupBuilder,
         opaque: true,
@@ -83,18 +84,18 @@ class _$AppRouter extends RootStackRouter {
               SeasonEpisodesTabViewArgs(seasonId: pathParams.getInt('id')));
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: SeasonEpisodesView(
+        child: SeasonEpisodesGridView(
           key: args.key,
           seasonId: args.seasonId,
         ),
       );
     },
-    LocationRoute.name: (routeData) {
-      final args = routeData.argsAs<LocationRouteArgs>(
-          orElse: () => const LocationRouteArgs());
+    LocationsRoute.name: (routeData) {
+      final args = routeData.argsAs<LocationsRouteArgs>(
+          orElse: () => const LocationsRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: LocationScreen(key: args.key),
+        child: LocationsScreen(key: args.key),
       );
     },
   };
@@ -155,7 +156,7 @@ class _$AppRouter extends RootStackRouter {
               parent: HomeRoute.name,
               children: [
                 RouteConfig(
-                  LocationRoute.name,
+                  LocationsRoute.name,
                   path: '',
                   parent: LocationsTab.name,
                 )
@@ -211,6 +212,7 @@ class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
     BuildContext? context,
     required int id,
     CharacterCard? card,
+    CharacterChip? chip,
   }) : super(
           CharacterDetailsPopup.name,
           path: '/home/characters/:id',
@@ -219,6 +221,7 @@ class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
             context: context,
             id: id,
             card: card,
+            chip: chip,
           ),
           rawPathParams: {'id': id},
         );
@@ -232,6 +235,7 @@ class CharacterDetailsPopupArgs {
     this.context,
     required this.id,
     this.card,
+    this.chip,
   });
 
   final Key? key;
@@ -242,9 +246,11 @@ class CharacterDetailsPopupArgs {
 
   final CharacterCard? card;
 
+  final CharacterChip? chip;
+
   @override
   String toString() {
-    return 'CharacterDetailsPopupArgs{key: $key, context: $context, id: $id, card: $card}';
+    return 'CharacterDetailsPopupArgs{key: $key, context: $context, id: $id, card: $card, chip: $chip}';
   }
 }
 
@@ -339,7 +345,7 @@ class SeasonsRouteArgs {
 }
 
 /// generated route for
-/// [SeasonEpisodesView]
+/// [SeasonEpisodesGridView]
 class SeasonEpisodesTabView extends PageRouteInfo<SeasonEpisodesTabViewArgs> {
   SeasonEpisodesTabView({
     Key? key,
@@ -374,25 +380,25 @@ class SeasonEpisodesTabViewArgs {
 }
 
 /// generated route for
-/// [LocationScreen]
-class LocationRoute extends PageRouteInfo<LocationRouteArgs> {
-  LocationRoute({Key? key})
+/// [LocationsScreen]
+class LocationsRoute extends PageRouteInfo<LocationsRouteArgs> {
+  LocationsRoute({Key? key})
       : super(
-          LocationRoute.name,
+          LocationsRoute.name,
           path: '',
-          args: LocationRouteArgs(key: key),
+          args: LocationsRouteArgs(key: key),
         );
 
-  static const String name = 'LocationRoute';
+  static const String name = 'LocationsRoute';
 }
 
-class LocationRouteArgs {
-  const LocationRouteArgs({this.key});
+class LocationsRouteArgs {
+  const LocationsRouteArgs({this.key});
 
   final Key? key;
 
   @override
   String toString() {
-    return 'LocationRouteArgs{key: $key}';
+    return 'LocationsRouteArgs{key: $key}';
   }
 }

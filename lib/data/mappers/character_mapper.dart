@@ -3,6 +3,7 @@ import 'package:rick_and_morty/data/models/character_dto.dart';
 import 'package:rick_and_morty/data/models/character_response_dto.dart';
 import 'package:rick_and_morty/domain/entities/character.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
+import 'package:rick_and_morty/domain/entities/character_chip.dart';
 import 'package:rick_and_morty/domain/entities/pagination.dart';
 
 import 'enum_mapper.dart';
@@ -51,8 +52,11 @@ List<CharacterCard> mapCharacterCards(List<CharacterCardDto> dto) {
       .toList();
 }
 
-List<int> mapCharacterIds(List<Uri> characters) {
-  return characters
-      .map((character) => int.parse(character.pathSegments.last))
-      .toList();
+List<CharacterChip> mapCharacterChips(List<Uri> uris) {
+  return uris.map((uri) {
+    final id = int.parse(uri.pathSegments.last);
+    final image = 'https://rickandmortyapi.com/api/character/avatar/$id.jpeg';
+
+    return CharacterChip(id: id, image: image);
+  }).toList();
 }

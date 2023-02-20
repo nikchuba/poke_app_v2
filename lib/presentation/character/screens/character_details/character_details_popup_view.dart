@@ -7,6 +7,7 @@ import 'package:rick_and_morty/internal/di/locator.dart';
 import 'package:rick_and_morty/libraries/ui/abstracts/popup.dart';
 import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
 import 'package:rick_and_morty/libraries/ui/variables.dart';
+import 'package:rick_and_morty/libraries/ui/widgets/character_status_widget.dart';
 import 'package:rick_and_morty/managers/character_manager.dart';
 
 const _defaultPadding = 16.0;
@@ -30,13 +31,27 @@ class CharacterDetailsPopupView extends PopupView {
       _CharacterDetailsPopupViewState();
 }
 
-class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
+class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView>
+    with TickerProviderStateMixin {
   ColorScheme get colorScheme => Theme.of(context).colorScheme;
   CharacterManager get manager => locator.get<CharacterManager>();
+
+  late AnimationController animationController;
+  late Animation<double> animation;
 
   @override
   void initState() {
     manager.updateCharacter(widget.id);
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: const Duration(milliseconds: 150),
+    );
+    animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.decelerate),
+    );
+
+    context.router.addListener(routerListener);
     super.initState();
   }
 
@@ -44,6 +59,11 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
   void dispose() {
     manager.updateCharacter(null);
     super.dispose();
+  }
+
+  void routerListener() {
+    animationController.reverse();
+    context.router.removeListener(routerListener);
   }
 
   @override
@@ -58,101 +78,105 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
         stream: manager.currentCharacter,
         builder: (context, snapshot) {
           final character = snapshot.data;
+          if (character != null) animationController.forward();
 
           return Stack(
             fit: StackFit.expand,
             children: [
               _buildImage(character),
-              Positioned(
-                bottom: _defaultPadding,
-                left: _defaultPadding,
-                right: _defaultPadding,
-                child: AnimatedSwitcher(
-                  duration: _defaultAnimationDuration,
-                  child: character != null
-                      ? Container(
-                          clipBehavior: Clip.hardEdge,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            gradient: LinearGradient(
-                              colors: [
-                                colorScheme.surfaceVariant,
-                                colorScheme.primaryContainer.withOpacity(0.7),
-                              ],
-                            ),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: DefaultTextStyle.merge(
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.copyWith(
-                                      color: colorScheme.onPrimaryContainer),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      character.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Species: ${character.species}',
-                                  ),
-                                  Text(
-                                    'Gender: ${character.gender.name}',
-                                  ),
-                                  Text(
-                                    'Origin: ${character.origin.name}',
-                                  ),
-                                  Text(
-                                    'Last location: ${character.location.name}',
-                                  ),
-                                ],
+              if (character != null) ...[
+                Positioned(
+                  bottom: _defaultPadding,
+                  left: _defaultPadding,
+                  right: _defaultPadding,
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(
+                          colors: [
+                            colorScheme.surfaceVariant,
+                            colorScheme.primaryContainer.withOpacity(0.7),
+                          ],
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: DefaultTextStyle.merge(
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: colorScheme.onPrimaryContainer),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Center(
+                                child: Text(
+                                  character.name,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                               ),
-                            ),
+                              Text(
+                                'Species: ${character.species}',
+                              ),
+                              Text(
+                                'Gender: ${character.gender.name}',
+                              ),
+                              Text(
+                                'Origin: ${character.origin.name}',
+                              ),
+                              Text(
+                                'Last location: ${character.location.name}',
+                              ),
+                            ],
                           ),
-                        )
-                      : null,
-                ),
-              ),
-              Positioned(
-                top: _defaultPadding,
-                left: _defaultPadding,
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceVariant.withOpacity(.8),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '#${widget.id}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(color: colorScheme.onSurface),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: _defaultPadding,
-                right: _defaultPadding,
-                child: AnimatedSwitcher(
-                  duration: _defaultAnimationDuration,
-                  child: _buildStatus(character),
+                Positioned(
+                  top: _defaultPadding,
+                  left: _defaultPadding,
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceVariant.withOpacity(.8),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '#${widget.id}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: colorScheme.onSurface),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  top: _defaultPadding,
+                  right: _defaultPadding,
+                  child: AnimatedSwitcher(
+                    duration: _defaultAnimationDuration,
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: CharacterStatusWidget(status: character.status),
+                    ),
+                  ),
+                ),
+              ]
             ],
           );
         },
@@ -168,33 +192,5 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView> {
             errorImageSize: 40,
           )
         : const Center(child: CircularProgressIndicator());
-  }
-
-  Widget? _buildStatus(Character? character) {
-    final status = character?.status ?? widget.card?.status;
-    return status != null
-        ? Container(
-            clipBehavior: Clip.hardEdge,
-            padding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 8,
-            ),
-            decoration: BoxDecoration(
-              color: getStatusColor(status).withOpacity(.8),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Text(
-                  status.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(color: colorScheme.onSurface),
-                ),
-              ],
-            ),
-          )
-        : null;
   }
 }

@@ -61,7 +61,7 @@ class CustomRouteBuilders {
 
         return AnimatedBuilder(
           animation: animation,
-          builder: (context, child) {
+          builder: (context, _) {
             final currentWidth = minSize!.width +
                 (maxSize.width - minSize.width) * animationSize.value;
             final currentHeight = minSize.height +
@@ -74,8 +74,8 @@ class CustomRouteBuilders {
             );
             return BackdropFilter(
               filter: ImageFilter.blur(
-                sigmaX: 20 * animationSize.value,
-                sigmaY: 20 * animationSize.value,
+                sigmaX: 20 * animation.value,
+                sigmaY: 20 * animation.value,
               ),
               child: Stack(
                 children: [
@@ -85,13 +85,13 @@ class CustomRouteBuilders {
                       width: currentWidth,
                       height: currentHeight,
                     ),
-                    child: child!,
+                    child: child,
                   ),
                 ],
               ),
             );
           },
-          child: child,
+          // child: child,
         );
       },
     );

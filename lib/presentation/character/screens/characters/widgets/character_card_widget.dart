@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
 import 'package:rick_and_morty/libraries/ui/variables.dart';
+import 'package:rick_and_morty/libraries/ui/widgets/character_status_widget.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
 class CharacterCardWidget extends StatefulWidget {
@@ -97,24 +98,8 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
             Positioned(
               top: 8,
               right: 8,
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: getStatusColor(widget.card.status).withOpacity(.8),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      widget.card.status.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(color: colorScheme.onSurface),
-                    ),
-                  ],
-                ),
+              child: CharacterStatusWidget(
+                status: widget.card.status,
               ),
             ),
           ],

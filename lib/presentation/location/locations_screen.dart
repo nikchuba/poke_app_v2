@@ -14,8 +14,6 @@ import 'package:rick_and_morty/managers/location_manager.dart';
 import 'package:rick_and_morty/presentation/location/widgets/locations_grid_view.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'widgets/location_widget.dart';
-
 part 'locations_screen_presenter.dart';
 part 'locations_screen_view.dart';
 

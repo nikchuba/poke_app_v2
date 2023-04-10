@@ -6,21 +6,20 @@ import 'package:rick_and_morty/domain/entities/character_chip.dart';
 import 'package:rick_and_morty/internal/di/locator.dart';
 import 'package:rick_and_morty/libraries/ui/abstracts/popup.dart';
 import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
-import 'package:rick_and_morty/libraries/ui/variables.dart';
 import 'package:rick_and_morty/libraries/ui/widgets/character_status_widget.dart';
 import 'package:rick_and_morty/managers/character_manager.dart';
 
 const _defaultPadding = 16.0;
 const _defaultAnimationDuration = Duration(milliseconds: 300);
 
-class CharacterDetailsPopupView extends PopupView {
+class CharacterDetailsPopupView extends HeroView {
   const CharacterDetailsPopupView({
     super.key,
-    super.context,
+    required super.context,
     @PathParam('id') required this.id,
     this.card,
     this.chip,
-  }) : super();
+  });
 
   final int id;
   final CharacterCard? card;
@@ -45,10 +44,10 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView>
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
-      reverseDuration: const Duration(milliseconds: 150),
+      reverseDuration: const Duration(milliseconds: 100),
     );
     animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: animationController, curve: Curves.decelerate),
+      CurvedAnimation(parent: animationController, curve: Curves.easeInCubic),
     );
 
     context.router.addListener(routerListener);
@@ -57,6 +56,7 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView>
 
   @override
   void dispose() {
+    animationController.dispose();
     manager.updateCharacter(null);
     super.dispose();
   }
@@ -71,7 +71,7 @@ class _CharacterDetailsPopupViewState extends State<CharacterDetailsPopupView>
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         color: colorScheme.background.withOpacity(.5),
       ),
       child: StreamBuilder(

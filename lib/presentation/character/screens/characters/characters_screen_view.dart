@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 import 'package:rick_and_morty/internal/di/locator.dart';
@@ -72,17 +71,12 @@ class _CharactersScreenViewState extends State<CharactersScreenView>
                   builder: (context, snapshot) {
                     final cards = snapshot.data!;
                     return SliverGrid.builder(
-                      gridDelegate: SliverQuiltedGridDelegate(
-                        crossAxisCount: 20,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        repeatPattern: QuiltedGridRepeatPattern.same,
-                        pattern: const [
-                          QuiltedGridTile(11, 10),
-                          QuiltedGridTile(9, 10),
-                          QuiltedGridTile(11, 10),
-                          QuiltedGridTile(9, 10),
-                        ],
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 240,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        mainAxisExtent: 200,
                       ),
                       itemBuilder: (context, index) {
                         final card = cards.elementAt(index);

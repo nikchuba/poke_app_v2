@@ -4,10 +4,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rick_and_morty/internal/di/locator.dart';
 import 'package:rick_and_morty/libraries/ui/blurred_sliver_app_bar.dart';
 import 'package:rick_and_morty/libraries/ui/widgets/loading_indicator.dart';
-import 'package:rick_and_morty/managers/episode_manager.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
 import 'seasons_screen_presenter.dart';
@@ -45,8 +43,8 @@ class _SeasonsScreenViewState extends State<SeasonsScreenView>
 
   @override
   void didChangeDependencies() {
+    segmentedControls = _buildSegmentedControls();
     super.didChangeDependencies();
-    segmentedControls ??= _buildSegmentedControls();
   }
 
   @override

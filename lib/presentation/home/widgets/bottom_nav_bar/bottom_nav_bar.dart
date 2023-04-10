@@ -19,7 +19,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final background = Theme.of(context).colorScheme.surface;
+    final background = Theme.of(context).colorScheme.background;
     final shadowColor = Theme.of(context).colorScheme.surfaceTint;
     final bool isLightTheme = AdaptiveTheme.of(context).mode.isLight;
 
@@ -33,7 +33,7 @@ class BottomNavBar extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: background.withOpacity(0.7),
+          color: background.withOpacity(0.3),
           boxShadow: [
             BoxShadow(
               color: shadowColor.withOpacity(isLightTheme ? .24 : .08),
@@ -58,7 +58,10 @@ class BottomNavBar extends StatelessWidget {
           Center(
             child: BackdropFilter(
               filter: ImageFilter.blur(
-                  sigmaX: 20, sigmaY: 20, tileMode: TileMode.mirror),
+                sigmaX: 48,
+                sigmaY: 48,
+                tileMode: TileMode.mirror,
+              ),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

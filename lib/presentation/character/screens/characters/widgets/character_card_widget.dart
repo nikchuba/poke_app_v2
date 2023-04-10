@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/domain/entities/character_card.dart';
 import 'package:rick_and_morty/libraries/ui/fade_network_image.dart';
-import 'package:rick_and_morty/libraries/ui/variables.dart';
 import 'package:rick_and_morty/libraries/ui/widgets/character_status_widget.dart';
 import 'package:rick_and_morty/navigation/app_router.dart';
 
@@ -33,7 +32,7 @@ class _CharacterCardWidgetState extends State<CharacterCardWidget> {
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
             color: colorScheme.surfaceVariant.withOpacity(.4),
             boxShadow: [
               BoxShadow(

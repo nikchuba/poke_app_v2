@@ -20,11 +20,20 @@ class _HomeScreenViewState extends State<HomeScreenView>
       builder: (context, child, animation) {
         final tabs = AutoTabsRouter.of(context);
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
               FadeTransition(
                 opacity: animation,
                 child: child,
+              ),
+              const Positioned(
+                left: 0,
+                right: 0,
+                bottom: 100,
+                child: Center(
+                  child: Search(),
+                ),
               ),
               Positioned(
                 right: 0,

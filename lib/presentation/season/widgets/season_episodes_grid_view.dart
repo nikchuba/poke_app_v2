@@ -24,7 +24,6 @@ class _SeasonEpisodesGridViewState extends State<SeasonEpisodesGridView> {
 
   @override
   void initState() {
-    
     super.initState();
   }
 

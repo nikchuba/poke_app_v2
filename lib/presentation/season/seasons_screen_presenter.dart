@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
-import 'package:rick_and_morty/core/error/error.dart';
 import 'package:rick_and_morty/domain/entities/episode.dart';
 import 'package:rick_and_morty/libraries/ui/layout/presenter.dart';
 import 'package:rick_and_morty/managers/episode_manager.dart';

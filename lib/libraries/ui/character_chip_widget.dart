@@ -35,7 +35,7 @@ class _CharacterChipWidgetState extends State<CharacterChipWidget> {
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           color: colorScheme.onSecondary.withOpacity(.3),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: FadeNetworkImage(image: widget.chip.image),
       ),

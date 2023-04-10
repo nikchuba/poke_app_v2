@@ -25,10 +25,21 @@ class _$AppRouter extends RootStackRouter {
         child: HomeScreen(key: args.key),
       );
     },
+    SearchRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchRouteArgs>();
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: SearchScreen(
+          key: args.key,
+          context: args.context,
+        ),
+        customRouteBuilder: CustomRouteBuilders.searchScreenBuilder,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     CharacterDetailsPopup.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<CharacterDetailsPopupArgs>(
-          orElse: () => CharacterDetailsPopupArgs(id: pathParams.getInt('id')));
+      final args = routeData.argsAs<CharacterDetailsPopupArgs>();
       return CustomPage<dynamic>(
         routeData: routeData,
         child: CharacterDetailsPopupView(
@@ -165,6 +176,10 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          SearchRoute.name,
+          path: '/home/search',
+        ),
+        RouteConfig(
           CharacterDetailsPopup.name,
           path: '/home/characters/:id',
         ),
@@ -205,11 +220,45 @@ class HomeRouteArgs {
 }
 
 /// generated route for
+/// [SearchScreen]
+class SearchRoute extends PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    Key? key,
+    required BuildContext context,
+  }) : super(
+          SearchRoute.name,
+          path: '/home/search',
+          args: SearchRouteArgs(
+            key: key,
+            context: context,
+          ),
+        );
+
+  static const String name = 'SearchRoute';
+}
+
+class SearchRouteArgs {
+  const SearchRouteArgs({
+    this.key,
+    required this.context,
+  });
+
+  final Key? key;
+
+  final BuildContext context;
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs{key: $key, context: $context}';
+  }
+}
+
+/// generated route for
 /// [CharacterDetailsPopupView]
 class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
   CharacterDetailsPopup({
     Key? key,
-    BuildContext? context,
+    required BuildContext context,
     required int id,
     CharacterCard? card,
     CharacterChip? chip,
@@ -232,7 +281,7 @@ class CharacterDetailsPopup extends PageRouteInfo<CharacterDetailsPopupArgs> {
 class CharacterDetailsPopupArgs {
   const CharacterDetailsPopupArgs({
     this.key,
-    this.context,
+    required this.context,
     required this.id,
     this.card,
     this.chip,
@@ -240,7 +289,7 @@ class CharacterDetailsPopupArgs {
 
   final Key? key;
 
-  final BuildContext? context;
+  final BuildContext context;
 
   final int id;
 

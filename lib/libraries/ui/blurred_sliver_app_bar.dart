@@ -34,7 +34,7 @@ const _maxTitleFontSize = 36.0;
 const _minTitlePadding = 16.0;
 const _maxTitlePadding = 48.0;
 const _betweenPadding = 6.0;
-const _maxBlur = 20.0;
+const _maxBlur = 48.0;
 const _minBlur = 0.0;
 
 class _FloatingSegmentedControl<T extends Object>
@@ -147,7 +147,7 @@ class _FloatingSegmentedControl<T extends Object>
                     ],
                   ),
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    filter: ImageFilter.blur(sigmaX: 32, sigmaY: 32),
                     child: bottom,
                   ),
                 ),

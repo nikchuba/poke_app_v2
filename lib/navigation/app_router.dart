@@ -9,6 +9,7 @@ import 'package:rick_and_morty/presentation/season/widgets/season_episodes_grid_
 import 'package:rick_and_morty/presentation/season/seasons_screen.dart';
 import 'package:rick_and_morty/presentation/home/home_screen.dart';
 import 'package:rick_and_morty/presentation/location/locations_screen.dart';
+import 'package:rick_and_morty/presentation/search/search_screen.dart';
 
 import 'custom_route_builders.dart';
 
@@ -61,6 +62,11 @@ part 'app_router.gr.dart';
           ],
         ),
       ],
+    ),
+    CustomRoute(
+      path: '/home/search',
+      page: SearchScreen,
+      customRouteBuilder: CustomRouteBuilders.searchScreenBuilder,
     ),
     CustomRoute(
       path: '/home/characters/:id',
